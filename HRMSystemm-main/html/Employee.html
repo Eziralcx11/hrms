@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quadra Cafe HRMS - Employee Portal</title>
+
+<link rel="stylesheet" href="../css/Employee.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- Floating Particles Background -->
+<div class="particles">
+  <div class="particle p1"></div>
+  <div class="particle p2"></div>
+  <div class="particle p3"></div>
+  <div class="particle p4"></div>
+  <div class="particle p5"></div>
+  <div class="particle p6"></div>
+</div>
+
+<!-- Decorative corner accents -->
+<div class="corner-deco tl"></div>
+<div class="corner-deco tr"></div>
+<div class="corner-deco bl"></div>
+<div class="corner-deco br"></div>
+
+<div class="dashboard-wrapper">
+
+  <!-- ====== SIDEBAR ====== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo-wrapper">
+        <div class="sidebar-logo-glow"></div>
+        <img src="../images/logo.png" class="sidebar-logo" alt="Quadra Cafe">
+      </div>
+      <h3 class="sidebar-brand">Quadra Cafe</h3>
+      <span class="sidebar-sub">Employee Portal</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard">
+        <i class="fas fa-th-large"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-page="timeclock">
+        <i class="fas fa-clock"></i>
+        <span>Time In / Time Out</span>
+      </a>
+      <a href="#" class="nav-item" data-page="payslip">
+        <i class="fas fa-file-invoice"></i>
+        <span>Payslip</span>
+      </a>
+      <a href="#" class="nav-item" data-page="leave">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Leave Form</span>
+      </a>
+      <a href="#" class="nav-item" data-page="profile">
+        <i class="fas fa-user-edit"></i>
+        <span>My Profile</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-name" id="empSideName">Employee</span>
+          <span class="sidebar-user-role" id="empSideRole">Employee</span>
+        </div>
+      </div>
+      <a href="#" class="sidebar-logout" title="Sign Out" onclick="showSignoutModal(); return false;">
+        <i class="fas fa-sign-out-alt"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <div class="topbar-info">
+        <i class="fas fa-building"></i>
+        <span>Quadra Cafe HRMS — Employee Portal</span>
+      </div>
+
+      <div class="topbar-right">
+        <div class="topbar-date">
+          <i class="fas fa-calendar-day"></i>
+          <span id="currentDate"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================================================================ -->
+    <!-- DASHBOARD                                                        -->
+    <!-- ================================================================ -->
+    <div class="page-content active" id="page-dashboard">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">My Dashboard</h1>
+          <p class="page-subtitle" id="dashGreeting">Loading your account...</p>
+        </div>
+      </div>
+
+      <!-- Employee Quick Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-green">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Days Present This Month</span>
+            <span class="stat-value" id="daysPresent">18</span>
+            <span class="stat-change stat-up"><i class="fas fa-arrow-up"></i> 85.7% attendance</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-red">
+            <i class="fas fa-times-circle"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Lates This Month</span>
+            <span class="stat-value" id="latesCount">2</span>
+            <span class="stat-change stat-down"><i class="fas fa-arrow-down"></i> Last: Jul 08</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-gold">
+            <i class="fas fa-coffee"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Work Hours This Week</span>
+            <span class="stat-value" id="workHours">32.5</span>
+            <span class="stat-change stat-up">hrs logged</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-blue">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Leave Credits Remaining</span>
+            <span class="stat-value" id="leaveCredits">14</span>
+            <span class="stat-change stat-up">days available</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions Row -->
+      <div class="card" style="margin-bottom: 30px;">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-bolt"></i> Quick Actions</h3>
+        </div>
+        <div class="card-body" style="display: flex; gap: 14px; flex-wrap: wrap;">
+          <button class="btn btn-green" onclick="switchPage('timeclock')">
+            <i class="fas fa-clock"></i> Time In / Out
+          </button>
+          <button class="btn btn-gold" onclick="switchPage('payslip')">
+            <i class="fas fa-file-invoice"></i> View Payslip
+          </button>
+          <button class="btn btn-outline" onclick="switchPage('leave')">
+            <i class="fas fa-calendar-plus"></i> Request Leave
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Activity & Schedule -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;">
+
+        <!-- My Recent Activity -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-history"></i> My Recent Activity</h3>
+          </div>
+          <div class="card-body">
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-green"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Clocked in at 08:05 AM</span>
+                  <span class="activity-time">Today</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-gold"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Leave request approved (Personal Leave)</span>
+                  <span class="activity-time">July 08, 2026</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-green"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Clocked out at 05:30 PM</span>
+                  <span class="activity-time">July 08, 2026</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-green"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Clocked in at 07:55 AM</span>
+                  <span class="activity-time">July 08, 2026</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-red"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Late clock-in at 08:20 AM</span>
+                  <span class="activity-time">July 07, 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Schedule -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-calendar-week"></i> This Week's Schedule</h3>
+          </div>
+          <div class="card-body">
+            <div class="event-list">
+              <div class="event-item">
+                <div class="event-date-box">
+                  <span class="event-date-num">10</span>
+                  <span class="event-date-month">Jul</span>
+                </div>
+                <div class="event-info">
+                  <span class="event-title">Morning Shift</span>
+                  <span class="event-desc">Barista Station</span>
+                  <span class="event-time"><i class="fas fa-clock"></i> 7:00 AM - 3:00 PM</span>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date-box">
+                  <span class="event-date-num">11</span>
+                  <span class="event-date-month">Jul</span>
+                </div>
+                <div class="event-info">
+                  <span class="event-title">Morning Shift</span>
+                  <span class="event-desc">Barista Station</span>
+                  <span class="event-time"><i class="fas fa-clock"></i> 7:00 AM - 3:00 PM</span>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date-box">
+                  <span class="event-date-num">12</span>
+                  <span class="event-date-month">Jul</span>
+                </div>
+                <div class="event-info">
+                  <span class="event-title">Day Off</span>
+                  <span class="event-desc">Rest Day</span>
+                  <span class="event-time"><i class="fas fa-clock"></i> —</span>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date-box">
+                  <span class="event-date-num">13</span>
+                  <span class="event-date-month">Jul</span>
+                </div>
+                <div class="event-info">
+                  <span class="event-title">Afternoon Shift</span>
+                  <span class="event-desc">Barista Station</span>
+                  <span class="event-time"><i class="fas fa-clock"></i> 2:00 PM - 10:00 PM</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- TIME IN / TIME OUT                                                -->
+    <!-- ================================================================ -->
+    <div class="page-content" id="page-timeclock">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Time In / Time Out</h1>
+          <p class="page-subtitle">Track your attendance and work hours</p>
+        </div>
+      </div>
+
+      <!-- Time Clock -->
+      <div class="time-clock-section">
+        <div class="time-clock-card">
+          <div class="time-display" id="liveTime">12:00:00</div>
+          <div class="time-date-display" id="liveDate">Monday, July 10, 2026</div>
+
+          <div class="time-clock-status clocked-out" id="clockStatus">
+            <span class="status-dot red"></span>
+            <span>Currently Clocked Out</span>
+          </div>
+
+          <button class="time-clock-btn btn-clock-in" id="clockBtn" onclick="toggleClock()">
+            <i class="fas fa-fingerprint"></i>
+            <span id="clockBtnText">CLOCK IN</span>
+          </button>
+
+          <div class="time-clock-meta">
+            <div class="time-meta-item">
+              <span class="time-meta-label">Today's Total</span>
+              <span class="time-meta-value" id="todayTotal">0h 0m</span>
+            </div>
+            <div class="time-meta-item">
+              <span class="time-meta-label">This Week</span>
+              <span class="time-meta-value">32h 30m</span>
+            </div>
+            <div class="time-meta-item">
+              <span class="time-meta-label">This Month</span>
+              <span class="time-meta-value">118h 45m</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Time Logs -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-list"></i> Recent Time Logs</h3>
+          <span style="color:rgba(255,255,255,0.3);font-size:13px;">This week</span>
+        </div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time In</th>
+                  <th>Time Out</th>
+                  <th>Total Hours</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jul 10, 2026</td>
+                  <td>08:05 AM</td>
+                  <td>—</td>
+                  <td>—</td>
+                  <td><span class="status-badge status-ontime">On-going</span></td>
+                </tr>
+                <tr>
+                  <td>Jul 09, 2026</td>
+                  <td>07:55 AM</td>
+                  <td>05:30 PM</td>
+                  <td>8h 35m</td>
+                  <td><span class="status-badge status-ontime">Completed</span></td>
+                </tr>
+                <tr>
+                  <td>Jul 08, 2026</td>
+                  <td>07:50 AM</td>
+                  <td>05:25 PM</td>
+                  <td>8h 35m</td>
+                  <td><span class="status-badge status-ontime">Completed</span></td>
+                </tr>
+                <tr>
+                  <td>Jul 07, 2026</td>
+                  <td>08:20 AM</td>
+                  <td>05:40 PM</td>
+                  <td>8h 20m</td>
+                  <td><span class="status-badge status-late">Late</span></td>
+                </tr>
+                <tr>
+                  <td>Jul 06, 2026</td>
+                  <td>07:45 AM</td>
+                  <td>05:15 PM</td>
+                  <td>8h 30m</td>
+                  <td><span class="status-badge status-ontime">Completed</span></td>
+                </tr>
+                <tr>
+                  <td>Jul 05, 2026</td>
+                  <td>—</td>
+                  <td>—</td>
+                  <td>—</td>
+                  <td><span class="status-badge status-absent">Day Off</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- PAYSLIP                                                           -->
+    <!-- ================================================================ -->
+    <div class="page-content" id="page-payslip">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Payslip</h1>
+          <p class="page-subtitle">View your salary details and payment history</p>
+        </div>
+        <div class="page-actions">
+          <select class="filter-select" id="payslipPeriod" style="padding:10px 16px;border-radius:10px;border:1px solid rgba(214,174,98,0.12);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.7);font-size:13px;font-family:'Poppins',sans-serif;outline:none;cursor:pointer;">
+            <option value="july-2026">July 2026</option>
+            <option value="june-2026">June 2026</option>
+            <option value="may-2026">May 2026</option>
+            <option value="april-2026">April 2026</option>
+          </select>
+          <button class="btn btn-gold" onclick="alert('📄 Downloading payslip as PDF...')">
+            <i class="fas fa-download"></i> Download PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Payslip Summary -->
+      <div class="payslip-summary">
+        <div class="payslip-card">
+          <div class="payslip-icon payslip-icon-green"><i class="fas fa-money-bill-wave"></i></div>
+          <div class="payslip-info">
+            <span class="payslip-label">Basic Salary</span>
+            <span class="payslip-amount">₱14,500</span>
+          </div>
+        </div>
+        <div class="payslip-card">
+          <div class="payslip-icon payslip-icon-gold"><i class="fas fa-plus-circle"></i></div>
+          <div class="payslip-info">
+            <span class="payslip-label">Total Allowances</span>
+            <span class="payslip-amount">₱1,500</span>
+          </div>
+        </div>
+        <div class="payslip-card">
+          <div class="payslip-icon payslip-icon-blue"><i class="fas fa-minus-circle"></i></div>
+          <div class="payslip-info">
+            <span class="payslip-label">Total Deductions</span>
+            <span class="payslip-amount">-₱1,950</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Payslip -->
+      <div class="card">
+        <div class="card-body">
+
+          <!-- Payslip Header -->
+          <div class="payslip-header">
+            <div class="payslip-company">
+              <img src="../images/logo.png" alt="Quadra Cafe">
+              <div>
+                <h4>Quadra Cafe</h4>
+                <span>Human Resources Management System</span>
+              </div>
+            </div>
+            <div class="payslip-period-text">
+              <strong>July 1 - July 15, 2026</strong>
+              <span>Pay Period</span>
+            </div>
+          </div>
+
+          <!-- Employee Info -->
+          <div style="margin-bottom: 20px;padding-bottom:16px;border-bottom:1px solid rgba(214,174,98,0.06);">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <span style="color:rgba(255,255,255,0.4);font-size:12px;">Employee Name</span>
+                <span style="color:rgba(255,255,255,0.8);font-size:14px;display:block;" id="payslipEmpName">Employee</span>
+              </div>
+              <div>
+                <span style="color:rgba(255,255,255,0.4);font-size:12px;">Position</span>
+                <span style="color:rgba(255,255,255,0.8);font-size:14px;display:block;" id="payslipEmpRole">Employee</span>
+              </div>
+              <div>
+                <span style="color:rgba(255,255,255,0.4);font-size:12px;">Department</span>
+                <span style="color:rgba(255,255,255,0.8);font-size:14px;display:block;" id="payslipEmpDept">Operations</span>
+              </div>
+              <div>
+                <span style="color:rgba(255,255,255,0.4);font-size:12px;">Employee ID</span>
+                <span style="color:rgba(255,255,255,0.8);font-size:14px;display:block;" id="payslipEmpId">EMP-2024-0128</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Earnings -->
+          <h4 style="color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:12px;font-weight:500;">
+            <i class="fas fa-arrow-up" style="color:#34A853;"></i> Earnings
+          </h4>
+          <div class="payslip-detail-row">
+            <span class="payslip-detail-label">Basic Salary</span>
+            <span class="payslip-detail-value">₱14,500.00</span>
+          </div>
+          <div class="payslip-detail-row">
+            <span class="payslip-detail-label">Rice Allowance</span>
+            <span class="payslip-detail-value">₱500.00</span>
+          </div>
+          <div class="payslip-detail-row">
+            <span class="payslip-detail-label">Transportation Allowance</span>
+            <span class="payslip-detail-value">₱500.00</span>
+          </div>
+          <div class="payslip-detail-row">
+            <span class="payslip-detail-label">OT Pay (4 hrs)</span>
+            <span class="payslip-detail-value">₱500.00</span>
+          </div>
+
+          <!-- Deductions -->
+          <h4 style="color:rgba(255,255,255,0.7);font-size:14px;margin:20px 0 12px;font-weight:500;">
+            <i class="fas fa-arrow-down" style="color:#EA4335;"></i> Deductions
+          </h4>
+          <div class="payslip-detail-row">
+            <span class="payslip-detail-label">SSS Contribution</span>
+            <span class="payslip-detail-value">-₱450.00</span>
+          </div>
+          <div class="payslip-detail-row">
+            <span class="payslip-detail-label">PhilHealth</span>
+            <span class="payslip-detail-value">-₱300.00</span>
+          </div>
+          <div class="payslip-detail-row">
+            <span class="payslip-detail-label">Pag-IBIG</span>
+            <span class="payslip-detail-value">-₱200.00</span>
+          </div>
+          <div class="payslip-detail-row">
+            <span class="payslip-detail-label">Withholding Tax</span>
+            <span class="payslip-detail-value">-₱500.00</span>
+          </div>
+          <div class="payslip-detail-row">
+            <span class="payslip-detail-label">Absences / Lates</span>
+            <span class="payslip-detail-value">-₱500.00</span>
+          </div>
+
+          <!-- Total -->
+          <div class="payslip-detail-row total-row">
+            <span class="payslip-detail-label" style="font-size:16px;font-weight:600;">Net Pay</span>
+            <span class="payslip-detail-value">₱14,050.00</span>
+          </div>
+
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(214,174,98,0.06);text-align:center;">
+            <span style="color:rgba(255,255,255,0.2);font-size:12px;">
+              This is a computer-generated payslip. No signature required.
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- LEAVE FORM                                                        -->
+    <!-- ================================================================ -->
+    <div class="page-content" id="page-leave">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Leave Form</h1>
+          <p class="page-subtitle">Submit a leave request for approval</p>
+        </div>
+      </div>
+
+      <!-- Leave Balances -->
+      <div class="leave-balance-grid">
+        <div class="leave-balance-item lb-green">
+          <span class="leave-balance-count">5</span>
+          <span class="leave-balance-label">Vacation Leave</span>
+        </div>
+        <div class="leave-balance-item lb-gold">
+          <span class="leave-balance-count">3</span>
+          <span class="leave-balance-label">Sick Leave</span>
+        </div>
+        <div class="leave-balance-item lb-blue">
+          <span class="leave-balance-count">4</span>
+          <span class="leave-balance-label">Personal Leave</span>
+        </div>
+        <div class="leave-balance-item lb-red">
+          <span class="leave-balance-count">2</span>
+          <span class="leave-balance-label">Emergency Leave</span>
+        </div>
+      </div>
+
+      <!-- Leave Form -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-file-alt"></i> Leave Application Form</h3>
+        </div>
+        <div class="card-body">
+          <div class="leave-form-card" style="border:none;padding:0;background:none;">
+
+            <form id="leaveForm" onsubmit="submitLeave(event)">
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Employee Name <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="leaveEmpName" value="" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Department <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="leaveDept" value="Operations" readonly>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Leave Type <span class="required">*</span></label>
+                  <select class="form-control" id="leaveType" required>
+                    <option value="" disabled selected>Select leave type</option>
+                    <option value="vacation">Vacation Leave</option>
+                    <option value="sick">Sick Leave</option>
+                    <option value="personal">Personal Leave</option>
+                    <option value="emergency">Emergency Leave</option>
+                    <option value="maternity">Maternity Leave</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Type of Leave <span class="required">*</span></label>
+                  <select class="form-control" id="leaveTypeDetail" required>
+                    <option value="" disabled selected>Select type</option>
+                    <option value="with-pay">With Pay</option>
+                    <option value="without-pay">Without Pay</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Start Date <span class="required">*</span></label>
+                  <input type="date" class="form-control" id="leaveStart" required onchange="computeLeaveDays()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">End Date <span class="required">*</span></label>
+                  <input type="date" class="form-control" id="leaveEnd" required onchange="computeLeaveDays()">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Number of Days</label>
+                  <input type="text" class="form-control" id="leaveDays" value="0" readonly style="font-weight:600;color:#E9C27D;">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Contact Number <span class="required">*</span></label>
+                  <input type="tel" class="form-control" id="leaveContact" inputmode="numeric" maxlength="11" pattern="[0-9]{11}" placeholder="e.g. 09171234567" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Reason for Leave <span class="required">*</span></label>
+                <textarea class="form-control" id="leaveReason" rows="3" placeholder="Please provide a detailed reason for your leave request..." required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Leave During? <span class="required">*</span></label>
+                <select class="form-control" id="leaveDuring" required>
+                  <option value="" disabled selected>Select when</option>
+                  <option value="whole-day">Whole Day</option>
+                  <option value="half-day-am">Half Day (AM)</option>
+                  <option value="half-day-pm">Half Day (PM)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Comments <span class="optional-tag" style="color:rgba(255,255,255,0.3);font-size:11px;font-weight:400;text-transform:none;">(Optional)</span></label>
+                <textarea class="form-control" id="leaveComments" rows="2" placeholder="Any additional information..."></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="reset" class="btn btn-sm btn-outline">Clear Form</button>
+                <button type="submit" class="btn btn-gold">
+                  <i class="fas fa-paper-plane"></i> Submit Leave Request
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Leave Requests -->
+      <div class="card" style="margin-top:30px;">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-history"></i> My Leave History</h3>
+        </div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Leave Type</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Days</th>
+                  <th>Status</th>
+                  <th>Filed On</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Personal Leave</td>
+                  <td>Jul 10, 2026</td>
+                  <td>Jul 12, 2026</td>
+                  <td>3</td>
+                  <td><span class="status-badge status-approved">Approved</span></td>
+                  <td>Jul 05, 2026</td>
+                </tr>
+                <tr>
+                  <td>Sick Leave</td>
+                  <td>Jun 20, 2026</td>
+                  <td>Jun 20, 2026</td>
+                  <td>1</td>
+                  <td><span class="status-badge status-approved">Approved</span></td>
+                  <td>Jun 19, 2026</td>
+                </tr>
+                <tr>
+                  <td>Vacation Leave</td>
+                  <td>Jun 05, 2026</td>
+                  <td>Jun 07, 2026</td>
+                  <td>3</td>
+                  <td><span class="status-badge status-rejected">Rejected</span></td>
+                  <td>May 30, 2026</td>
+                </tr>
+                <tr>
+                  <td>Emergency Leave</td>
+                  <td>May 15, 2026</td>
+                  <td>May 15, 2026</td>
+                  <td>1</td>
+                  <td><span class="status-badge status-approved">Approved</span></td>
+                  <td>May 15, 2026</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="page-content" id="page-profile">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">My Profile</h1>
+          <p class="page-subtitle">Manage your personal account information</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-id-card"></i> Personal Information</h3>
+        </div>
+        <div class="card-body">
+          <form id="employeeProfileForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Full Name <span class="required">*</span></label>
+                <input type="text" class="form-control" id="profileFullName" name="full_name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address <span class="required">*</span></label>
+                <input type="email" class="form-control" id="profileEmail" name="email" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Contact Number <span class="required">*</span></label>
+                <input type="tel" class="form-control" id="profileContact" name="contact_no" inputmode="numeric" maxlength="11" pattern="[0-9]{11}" required placeholder="e.g. 09171234567">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Position</label>
+                <input type="text" class="form-control" id="profilePosition" readonly>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-gold"><i class="fas fa-save"></i> Save Information</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:30px;">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-key"></i> Account PIN</h3>
+        </div>
+        <div class="card-body">
+          <p style="color:rgba(255,255,255,0.58);font-size:14px;line-height:1.7;margin-bottom:18px;">
+            Generate a new 6-digit access PIN. The new PIN will be sent to your registered email address.
+          </p>
+          <button type="button" class="btn btn-gold" onclick="regenerateEmployeePin()"><i class="fas fa-paper-plane"></i> Generate New PIN</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<div class="signout-modal-overlay" id="employeeAlertModal">
+  <div class="signout-modal">
+    <div class="signout-modal-icon" id="employeeAlertIcon">
+      <i class="fas fa-check-circle" id="employeeAlertIconTag"></i>
+    </div>
+    <h2 class="signout-modal-title" id="employeeAlertTitle">Success</h2>
+    <p class="signout-modal-desc" id="employeeAlertDesc"></p>
+    <div class="signout-modal-actions">
+      <button class="signout-modal-btn signout-btn-confirm" onclick="closeEmployeeAlert()">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="signout-modal-overlay" id="pinConfirmModal">
+  <div class="signout-modal">
+    <div class="signout-modal-icon">
+      <i class="fas fa-key"></i>
+    </div>
+    <h2 class="signout-modal-title">Generate New PIN</h2>
+    <p class="signout-modal-desc">Generate a new PIN and send it to your registered email?</p>
+    <div class="signout-modal-actions">
+      <button class="signout-modal-btn signout-btn-cancel" onclick="closePinConfirm()">Cancel</button>
+      <button class="signout-modal-btn signout-btn-confirm" onclick="confirmRegenerateEmployeePin()">Send PIN</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sign-Out Confirmation Modal -->
+<div class="signout-modal-overlay" id="signoutModal">
+  <div class="signout-modal">
+    <div class="signout-modal-icon">
+      <i class="fas fa-sign-out-alt"></i>
+    </div>
+    <h2 class="signout-modal-title">Sign Out</h2>
+    <p class="signout-modal-desc">Are you sure you want to sign out of your account? You will be redirected to the login page.</p>
+    <div class="signout-modal-actions">
+      <button class="signout-modal-btn signout-btn-cancel" onclick="hideSignoutModal()">Cancel</button>
+      <button class="signout-modal-btn signout-btn-confirm" onclick="confirmSignout()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentEmployeeProfile = null;
+
+function inferEmployeeDepartment(position) {
+  const value = (position || '').toLowerCase();
+  if (value.includes('cook') || value.includes('chef') || value.includes('kitchen')) return 'Kitchen';
+  if (value.includes('manager') || value.includes('supervisor')) return 'Management';
+  if (value.includes('finance') || value.includes('admin')) return 'Admin & Finance';
+  if (value.includes('maintenance')) return 'Maintenance';
+  return 'Operations';
+}
+
+function employeeFirstName(fullName) {
+  return (fullName || 'Employee').trim().split(/\s+/)[0];
+}
+
+function applyEmployeeProfile(user) {
+  currentEmployeeProfile = user;
+  const name = user.full_name || 'Employee';
+  const role = user.position || 'Employee';
+  const dept = inferEmployeeDepartment(role);
+  document.getElementById('empSideName').textContent = name;
+  document.getElementById('empSideRole').textContent = role;
+  document.getElementById('dashGreeting').textContent = 'Hi, ' + employeeFirstName(name) + '!';
+  const leaveName = document.getElementById('leaveEmpName');
+  if (leaveName) leaveName.value = name;
+  const leaveDept = document.getElementById('leaveDept');
+  if (leaveDept) leaveDept.value = dept;
+  const leaveContact = document.getElementById('leaveContact');
+  if (leaveContact) leaveContact.value = user.contact_no || '';
+  document.getElementById('payslipEmpName').textContent = name;
+  document.getElementById('payslipEmpRole').textContent = role;
+  document.getElementById('payslipEmpDept').textContent = dept;
+  document.getElementById('payslipEmpId').textContent = 'EMP-' + String(user.id).padStart(4, '0');
+  document.getElementById('profileFullName').value = name;
+  document.getElementById('profileEmail').value = user.email || '';
+  document.getElementById('profileContact').value = user.contact_no || '';
+  document.getElementById('profilePosition').value = role;
+}
+
+async function loadEmployeeProfile() {
+  try {
+    const response = await fetch('../php/profile.php');
+    const result = await response.json();
+    if (!result.success) throw new Error(result.message || 'Account does not exist.');
+    applyEmployeeProfile(result.user);
+  } catch (error) {
+    showEmployeeAlert('Account Not Available', error.message || 'Account does not exist.', false);
+    setTimeout(() => { window.location.href = 'Login.html'; }, 1800);
+  }
+}
+
+function showEmployeeAlert(title, message, success = true) {
+  const icon = document.getElementById('employeeAlertIcon');
+  const iconTag = document.getElementById('employeeAlertIconTag');
+  icon.style.background = success ? 'rgba(52,168,83,0.15)' : 'rgba(234,67,53,0.15)';
+  icon.style.borderColor = success ? 'rgba(52,168,83,0.25)' : 'rgba(234,67,53,0.25)';
+  iconTag.className = success ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+  iconTag.style.color = success ? '#34A853' : '#EA4335';
+  document.getElementById('employeeAlertTitle').textContent = title;
+  document.getElementById('employeeAlertDesc').textContent = message;
+  document.getElementById('employeeAlertModal').classList.add('show');
+}
+
+function closeEmployeeAlert() {
+  document.getElementById('employeeAlertModal').classList.remove('show');
+}
+
+function enforceElevenDigitPhone(input) {
+  if (!input) return;
+  input.addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 11);
+  });
+}
+
+enforceElevenDigitPhone(document.getElementById('profileContact'));
+
+document.getElementById('employeeProfileForm')?.addEventListener('submit', async function(event) {
+  event.preventDefault();
+  const contact = document.getElementById('profileContact').value.trim();
+  if (!/^\d{11}$/.test(contact)) {
+    showEmployeeAlert('Invalid Contact Number', 'Contact number must be exactly 11 digits.', false);
+    return;
+  }
+  try {
+    const body = new FormData(this);
+    body.append('action', 'update');
+    const response = await fetch('../php/profile.php', { method: 'POST', body });
+    const result = await response.json();
+    if (!result.success) return showEmployeeAlert('Profile Not Saved', result.message, false);
+    await loadEmployeeProfile();
+    showEmployeeAlert('Profile Updated', result.message, true);
+  } catch (error) {
+    showEmployeeAlert('Profile Not Saved', 'Unable to update your profile information.', false);
+  }
+});
+
+async function regenerateEmployeePin() {
+  document.getElementById('pinConfirmModal').classList.add('show');
+}
+
+function closePinConfirm() {
+  document.getElementById('pinConfirmModal').classList.remove('show');
+}
+
+async function confirmRegenerateEmployeePin() {
+  closePinConfirm();
+  try {
+    const body = new URLSearchParams({ action: 'regenerate_pin' });
+    const response = await fetch('../php/profile.php', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+    const result = await response.json();
+    showEmployeeAlert(result.success ? 'PIN Sent' : 'PIN Not Sent', result.message, result.success);
+  } catch (error) {
+    showEmployeeAlert('PIN Not Sent', 'Unable to generate a new PIN right now.', false);
+  }
+}
+
+// ============================================
+// SIGN-OUT CONFIRMATION MODAL
+// ============================================
+function showSignoutModal() {
+  document.getElementById('signoutModal').classList.add('show');
+}
+
+function hideSignoutModal() {
+  document.getElementById('signoutModal').classList.remove('show');
+}
+
+function confirmSignout() {
+  window.location.href = 'Login.html';
+}
+
+// Close modal on overlay click
+document.getElementById('signoutModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    hideSignoutModal();
+  }
+});
+document.getElementById('employeeAlertModal').addEventListener('click', function(e) {
+  if (e.target === this) closeEmployeeAlert();
+});
+document.getElementById('pinConfirmModal').addEventListener('click', function(e) {
+  if (e.target === this) closePinConfirm();
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    hideSignoutModal();
+    closeEmployeeAlert();
+    closePinConfirm();
+  }
+});
+
+// ============================================
+// SET CURRENT DATE
+// ============================================
+function updateDate() {
+  const now = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+
+  if (currentEmployeeProfile) {
+    document.getElementById('dashGreeting').textContent = 'Hi, ' + employeeFirstName(currentEmployeeProfile.full_name) + '!';
+  }
+}
+updateDate();
+loadEmployeeProfile();
+
+// ============================================
+// LIVE CLOCK
+// ============================================
+function updateClock() {
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('liveTime').textContent = time;
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('liveDate').textContent = now.toLocaleDateString('en-US', options);
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ============================================
+// TIME CLOCK FUNCTIONALITY
+// ============================================
+let isClockedIn = false;
+
+function toggleClock() {
+  const btn = document.getElementById('clockBtn');
+  const status = document.getElementById('clockStatus');
+  const btnText = document.getElementById('clockBtnText');
+  const todayTotal = document.getElementById('todayTotal');
+
+  if (!isClockedIn) {
+    // Clock In
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    if (confirm('🟢 Clock in at ' + timeStr + '?')) {
+      isClockedIn = true;
+      btn.className = 'time-clock-btn btn-clock-out';
+      btnText.textContent = 'CLOCK OUT';
+      status.className = 'time-clock-status clocked-in';
+      status.innerHTML = '<span class="status-dot green"></span> Currently Clocked In (' + timeStr + ')';
+      todayTotal.textContent = '0h 0m';
+      alert('✅ Clocked in at ' + timeStr);
+    }
+  } else {
+    // Clock Out
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    if (confirm('🔴 Clock out at ' + timeStr + '?')) {
+      isClockedIn = false;
+      btn.className = 'time-clock-btn btn-clock-in';
+      btnText.textContent = 'CLOCK IN';
+      status.className = 'time-clock-status clocked-out';
+      status.innerHTML = '<span class="status-dot red"></span> Currently Clocked Out';
+      todayTotal.textContent = '8h 30m';
+      alert('✅ Clocked out at ' + timeStr + '\nTotal hours: 8h 30m');
+    }
+  }
+}
+
+// ============================================
+// SIDEBAR NAVIGATION
+// ============================================
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    this.classList.add('active');
+    const page = this.dataset.page;
+    document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + page);
+    if (target) target.classList.add('active');
+    if (window.innerWidth <= 992) document.getElementById('sidebar').classList.remove('show');
+  });
+});
+
+function switchPage(page) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navItem = document.querySelector(`.nav-item[data-page="${page}"]`);
+  if (navItem) navItem.classList.add('active');
+  document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+}
+
+// ============================================
+// MOBILE MENU TOGGLE
+// ============================================
+document.getElementById('menuToggle').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.toggle('show');
+});
+
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 992) {
+    if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+      sidebar.classList.remove('show');
+    }
+  }
+});
+
+// ============================================
+// LEAVE FORM FUNCTIONS
+// ============================================
+function computeLeaveDays() {
+  const start = document.getElementById('leaveStart').value;
+  const end = document.getElementById('leaveEnd').value;
+  const daysField = document.getElementById('leaveDays');
+
+  if (start && end) {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = Math.abs(endDate - startDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    daysField.value = diffDays;
+  } else {
+    daysField.value = '0';
+  }
+}
+
+document.getElementById('leaveContact')?.addEventListener('input', function() {
+  this.value = this.value.replace(/\D/g, '').slice(0, 11);
+});
+
+function submitLeave(e) {
+  e.preventDefault();
+
+  const type = document.getElementById('leaveType');
+  const start = document.getElementById('leaveStart');
+  const end = document.getElementById('leaveEnd');
+  const contact = document.getElementById('leaveContact');
+  const reason = document.getElementById('leaveReason');
+  const during = document.getElementById('leaveDuring');
+
+  // Simple validation
+  if (!type.value || !start.value || !end.value || !contact.value || !reason.value || !during.value) {
+    alert('⚠️ Please fill in all required fields.');
+    return false;
+  }
+
+  if (!/^\d{11}$/.test(contact.value.trim())) {
+    alert('Contact number must be exactly 11 digits.');
+    return false;
+  }
+
+  const days = document.getElementById('leaveDays').value;
+
+  if (parseInt(days) < 1) {
+    alert('⚠️ Please select a valid date range.');
+    return false;
+  }
+
+  // Generate reference number
+  const now = new Date();
+  const refNo = 'LR-' + now.getFullYear() +
+    '-' + String(now.getMonth() + 1).padStart(2, '0') +
+    '-' + String(now.getDate()).padStart(2, '0') +
+    '-' + String(Math.floor(Math.random() * 900) + 100);
+
+  // Show success message
+  alert('✅ Leave request submitted successfully!\n\nReference No: ' + refNo + '\nYour supervisor will review your request.');
+
+  // Also add a row to the leave history table
+  const table = document.querySelector('#page-leave .data-table tbody');
+  if (table) {
+    const row = document.createElement('tr');
+    const typeText = type.options[type.selectedIndex].text;
+    const startText = new Date(start.value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const endText = new Date(end.value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const today = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    row.innerHTML = `
+      <td>${typeText}</td>
+      <td>${startText}</td>
+      <td>${endText}</td>
+      <td>${days}</td>
+      <td><span class="status-badge status-pending">Pending</span></td>
+      <td>${today}</td>
+    `;
+    table.insertBefore(row, table.firstChild);
+  }
+
+  return false;
+}
+
+function closeLeaveModal() {
+  document.getElementById('leaveForm').reset();
+  document.getElementById('leaveDays').value = '0';
+}
+
+// ============================================
+// ANIMATED COUNTERS
+// ============================================
+function animateCounters() {
+  document.querySelectorAll('#page-dashboard .stat-value').forEach(el => {
+    const target = parseFloat(el.textContent);
+    if (isNaN(target)) return;
+    const step = Math.ceil(target / 25);
+    let current = 0;
+    const isFloat = el.textContent.includes('.');
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = isFloat ? current.toFixed(1) : current.toLocaleString();
+    }, 800 / (target / step));
+  });
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { animateCounters(); observer.disconnect(); }
+  });
+});
+const dashPage = document.getElementById('page-dashboard');
+if (dashPage) observer.observe(dashPage);
+
+</script>
+
+</body>
+
+</html>

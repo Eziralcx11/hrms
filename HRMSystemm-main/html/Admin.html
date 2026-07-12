@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quadra Cafe HRMS - Admin Dashboard</title>
+
+<link rel="stylesheet" href="../css/Admin.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- Floating Particles Background -->
+<div class="particles">
+  <div class="particle p1"></div>
+  <div class="particle p2"></div>
+  <div class="particle p3"></div>
+  <div class="particle p4"></div>
+  <div class="particle p5"></div>
+  <div class="particle p6"></div>
+</div>
+
+<!-- Decorative corner accents -->
+<div class="corner-deco tl"></div>
+<div class="corner-deco tr"></div>
+<div class="corner-deco bl"></div>
+<div class="corner-deco br"></div>
+
+<div class="dashboard-wrapper">
+
+  <!-- ====== SIDEBAR ====== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo-wrapper">
+        <div class="sidebar-logo-glow"></div>
+        <img src="../images/logo.png" class="sidebar-logo" alt="Quadra Cafe">
+      </div>
+      <h3 class="sidebar-brand">Quadra Cafe</h3>
+      <span class="sidebar-sub">Admin Panel</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard">
+        <i class="fas fa-th-large"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-page="applicants" style="display:none;">
+        <i class="fas fa-file-signature"></i>
+        <span>Applicants Approval</span>
+      </a>
+      <a href="#" class="nav-item" data-page="attendance">
+        <i class="fas fa-clock"></i>
+        <span>Attendance</span>
+      </a>
+      <a href="#" class="nav-item" data-page="employees">
+        <i class="fas fa-users"></i>
+        <span>Employee Management</span>
+      </a>
+      <a href="#" class="nav-item" data-page="payroll">
+        <i class="fas fa-wallet"></i>
+        <span>Payroll</span>
+      </a>
+      <a href="#" class="nav-item" data-page="leave">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Leave Requests</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">
+          <i class="fas fa-user-cog"></i>
+        </div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-name">Admin</span>
+          <span class="sidebar-user-role">System Administrator</span>
+        </div>
+      </div>
+      <a href="#" class="sidebar-logout" title="Sign Out" onclick="showSignoutModal(); return false;">
+        <i class="fas fa-sign-out-alt"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <div class="topbar-search">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search across all modules..." id="globalSearch">
+      </div>
+
+      <div class="topbar-right">
+        <div class="topbar-notif" id="notifToggle">
+          <i class="fas fa-bell"></i>
+          <span class="notif-badge">5</span>
+        </div>
+        <div class="topbar-date">
+          <i class="fas fa-calendar-day"></i>
+          <span id="currentDate"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================================================================ -->
+    <!-- DASHBOARD PAGE                                                    -->
+    <!-- ================================================================ -->
+    <div class="page-content active" id="page-dashboard">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Admin Dashboard</h1>
+          <p class="page-subtitle">Full system overview at a glance</p>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-employees">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Total Employees</span>
+            <span class="stat-value" id="totalEmployees">0</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-present">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Present Today</span>
+            <span class="stat-value" id="presentToday">0</span>
+
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-leave">
+            <i class="fas fa-calendar-minus"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">On Leave</span>
+            <span class="stat-value" id="onLeave">0</span>
+
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-applicants">
+            <i class="fas fa-file-signature"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Pending Applicants</span>
+            <span class="stat-value" id="pendingApplicants">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity & Events -->
+      <div class="content-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:22px;">
+
+        <!-- Recent Activity -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-history"></i> Recent Activity</h3>
+          </div>
+          <div class="card-body">
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-green"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Maria Santos clocked in</span>
+                  <span class="activity-time">2 minutes ago</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-blue"></div>
+                <div class="activity-info">
+                  <span class="activity-text">New application submitted by Juan Dela Cruz</span>
+                  <span class="activity-time">15 minutes ago</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-gold"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Leave request approved for Ana Reyes</span>
+                  <span class="activity-time">1 hour ago</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-red"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Payroll for June has been processed</span>
+                  <span class="activity-time">3 hours ago</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-green"></div>
+                <div class="activity-info">
+                  <span class="activity-text">New employee onboarded: Carlos Lopez</span>
+                  <span class="activity-time">5 hours ago</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot activity-dot-blue"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Applicant approved: Sofia Garcia → Barista</span>
+                  <span class="activity-time">1 day ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming Events -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-calendar-check"></i> Upcoming Events</h3>
+          </div>
+          <div class="card-body">
+            <div class="event-list">
+              <div class="event-item">
+                <div class="event-date-box">
+                  <span class="event-date-num">15</span>
+                  <span class="event-date-month">Jul</span>
+                </div>
+                <div class="event-info">
+                  <span class="event-title">Staff Meeting</span>
+                  <span class="event-desc">Quarterly performance review</span>
+                  <span class="event-time"><i class="fas fa-clock"></i> 9:00 AM - 11:00 AM</span>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date-box">
+                  <span class="event-date-num">18</span>
+                  <span class="event-date-month">Jul</span>
+                </div>
+                <div class="event-info">
+                  <span class="event-title">Training: Customer Service</span>
+                  <span class="event-desc">New hire orientation session</span>
+                  <span class="event-time"><i class="fas fa-clock"></i> 1:00 PM - 3:00 PM</span>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date-box">
+                  <span class="event-date-num">22</span>
+                  <span class="event-date-month">Jul</span>
+                </div>
+                <div class="event-info">
+                  <span class="event-title">Payroll Processing</span>
+                  <span class="event-desc">End of month payroll</span>
+                  <span class="event-time"><i class="fas fa-clock"></i> All Day</span>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date-box">
+                  <span class="event-date-num">25</span>
+                  <span class="event-date-month">Jul</span>
+                </div>
+                <div class="event-info">
+                  <span class="event-title">Team Building</span>
+                  <span class="event-desc">Annual company outing</span>
+                  <span class="event-time"><i class="fas fa-clock"></i> 8:00 AM - 5:00 PM</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Stats Table -->
+      <div class="card" style="margin-top:30px;">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-user-tie"></i> Department Summary</h3>
+          <div class="card-header-actions">
+            <button class="btn btn-sm btn-outline" onclick="switchPage('employees')">
+              Full Details <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Department</th>
+                  <th>Total Staff</th>
+                  <th>Present</th>
+                  <th>On Leave</th>
+                  <th>Attendance Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Operations</td>
+                  <td>52</td>
+                  <td>47</td>
+                  <td>3</td>
+                  <td><span class="status-badge status-ontime">90.4%</span></td>
+                </tr>
+                <tr>
+                  <td>Kitchen</td>
+                  <td>34</td>
+                  <td>29</td>
+                  <td>2</td>
+                  <td><span class="status-badge status-ontime">85.3%</span></td>
+                </tr>
+                <tr>
+                  <td>Management</td>
+                  <td>18</td>
+                  <td>16</td>
+                  <td>1</td>
+                  <td><span class="status-badge status-ontime">88.9%</span></td>
+                </tr>
+                <tr>
+                  <td>Admin & Finance</td>
+                  <td>14</td>
+                  <td>13</td>
+                  <td>1</td>
+                  <td><span class="status-badge status-ontime">92.9%</span></td>
+                </tr>
+                <tr>
+                  <td>Maintenance</td>
+                  <td>10</td>
+                  <td>7</td>
+                  <td>1</td>
+                  <td><span class="status-badge status-late">70.0%</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- APPLICANTS APPROVAL PAGE                                          -->
+    <!-- ================================================================ -->
+    <div class="page-content" id="page-applicants">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Applicants Approval</h1>
+          <p class="page-subtitle">Review and process job applications</p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid" style="margin-bottom:24px;">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-applicants"><i class="fas fa-file-signature"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Total Applicants</span>
+            <span class="stat-value">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-pending"><i class="fas fa-hourglass-half"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Pending Review</span>
+            <span class="stat-value">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-approved"><i class="fas fa-check-circle"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Approved</span>
+            <span class="stat-value">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-rejected"><i class="fas fa-times-circle"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Rejected</span>
+            <span class="stat-value">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" onclick="switchApplicantTab(this, 'all')"><i class="fas fa-list"></i> All</button>
+        <button class="tab" onclick="switchApplicantTab(this, 'pending')"><i class="fas fa-hourglass-half"></i> Pending</button>
+        <button class="tab" onclick="switchApplicantTab(this, 'approved')"><i class="fas fa-check-circle"></i> Approved</button>
+        <button class="tab" onclick="switchApplicantTab(this, 'rejected')"><i class="fas fa-times-circle"></i> Rejected</button>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-bar">
+        <select class="filter-select" id="appFilterPosition">
+          <option value="">All Positions</option>
+          <option value="barista">Barista</option>
+          <option value="cashier">Cashier</option>
+        </select>
+        <select class="filter-select" id="appFilterDate">
+          <option value="">All Dates</option>
+          <option value="today">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+        </select>
+        <div class="filter-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search applicants..." id="appSearch">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-users"></i> Applicant List</h3>
+          <span style="color:rgba(255,255,255,0.3);font-size:13px;">Click <i class="fas fa-eye"></i> to view details</span>
+        </div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table class="data-table" id="applicantsTable">
+              <thead>
+                <tr>
+                  <th>Applicant</th>
+                  <th>Position</th>
+                  <th>Experience</th>
+                  <th>Date Applied</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-status="pending">
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Louie Chan</span>
+                        <span class="emp-email">louie.chan@email.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Barista</td>
+                  <td>1 - 2 yrs</td>
+                  <td>Jul 11, 2026</td>
+                  <td><span class="status-badge status-pending">Pending</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-view" onclick="viewApplicant('Louie Chan')" title="View"><i class="fas fa-eye"></i></button>
+                      <button class="action-btn action-btn-approve" onclick="approveApplicant(this)" title="Approve"><i class="fas fa-check"></i></button>
+                      <button class="action-btn action-btn-reject" onclick="rejectApplicant(this)" title="Reject"><i class="fas fa-times"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- ATTENDANCE PAGE                                                   -->
+    <!-- ================================================================ -->
+    <div class="page-content" id="page-attendance">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Attendance</h1>
+          <p class="page-subtitle">Monitor daily employee attendance</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-gold" onclick="alert('Export attendance report')">
+            <i class="fas fa-download"></i> Export
+          </button>
+        </div>
+      </div>
+
+      <!-- Date Selector -->
+      <div class="filters-bar">
+        <input type="date" class="filter-select" id="attendanceDate" style="min-width:200px;">
+        <select class="filter-select" id="attFilterDept">
+          <option value="">All Departments</option>
+          <option value="operations">Operations</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="management">Management</option>
+          <option value="admin">Admin & Finance</option>
+        </select>
+        <select class="filter-select" id="attFilterStatus">
+          <option value="">All Status</option>
+          <option value="present">Present</option>
+          <option value="late">Late</option>
+          <option value="absent">Absent</option>
+          <option value="leave">On Leave</option>
+          <option value="halfday">Half Day</option>
+        </select>
+        <div class="filter-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search employee..." id="attSearch">
+        </div>
+      </div>
+
+      <!-- Attendance Stats -->
+      <div class="stats-grid" style="margin-bottom:24px;">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-present"><i class="fas fa-check-circle"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Present</span>
+            <span class="stat-value" id="attPresent">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-leave"><i class="fas fa-clock"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Late</span>
+            <span class="stat-value" id="attLate">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-pending"><i class="fas fa-calendar-minus"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">On Leave</span>
+            <span class="stat-value">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-rejected"><i class="fas fa-times-circle"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Absent</span>
+            <span class="stat-value" id="attAbsent">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-clipboard-list"></i> Attendance Log</h3>
+          <span style="color:rgba(255,255,255,0.3);font-size:13px;" id="attLogDate"></span>
+        </div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table class="data-table" id="attendanceTable">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Department</th>
+                  <th>Time In</th>
+                  <th>Time Out</th>
+                  <th>Status</th>
+                  <th>Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Maria Santos</span>
+                        <span class="emp-email">maria.santos@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Operations</td>
+                  <td>07:52 AM</td>
+                  <td>—</td>
+                  <td><span class="status-badge status-ontime">Present</span></td>
+                  <td>On time</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Juan Dela Cruz</span>
+                        <span class="emp-email">juan.dc@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Operations</td>
+                  <td>08:05 AM</td>
+                  <td>—</td>
+                  <td><span class="status-badge status-ontime">Present</span></td>
+                  <td>On time</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Carlos Lopez</span>
+                        <span class="emp-email">carlos.lopez@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Kitchen</td>
+                  <td>08:32 AM</td>
+                  <td>—</td>
+                  <td><span class="status-badge status-late">Late</span></td>
+                  <td>32 min late</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Ana Reyes</span>
+                        <span class="emp-email">ana.reyes@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Management</td>
+                  <td>—</td>
+                  <td>—</td>
+                  <td><span class="status-badge status-leave">On Leave</span></td>
+                  <td>Personal leave</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Sofia Garcia</span>
+                        <span class="emp-email">sofia.garcia@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Operations</td>
+                  <td>—</td>
+                  <td>—</td>
+                  <td><span class="status-badge status-absent">Absent</span></td>
+                  <td>No call, no show</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Ramon Torres</span>
+                        <span class="emp-email">ramon.t@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Kitchen</td>
+                  <td>09:15 AM</td>
+                  <td>—</td>
+                  <td><span class="status-badge status-halfday">Half Day</span></td>
+                  <td>Half day AM</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Liza Moran</span>
+                        <span class="emp-email">liza.m@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Admin</td>
+                  <td>07:45 AM</td>
+                  <td>—</td>
+                  <td><span class="status-badge status-ontime">Present</span></td>
+                  <td>On time</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">4</button>
+            <button class="pagination-btn">5</button>
+            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- EMPLOYEE MANAGEMENT PAGE                                          -->
+    <!-- ================================================================ -->
+    <div class="page-content" id="page-employees">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Employee Management</h1>
+          <p class="page-subtitle">Manage your workforce</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-gold" onclick="openAdminCreateEmployee()">
+            <i class="fas fa-plus"></i> Add Employee
+          </button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:22px;">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-user-check"></i> Hired Applicants for Account Creation</h3>
+          <span style="color:rgba(255,255,255,0.5);font-size:13px;" id="hiredApplicantCount">Loading...</span>
+        </div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead><tr><th>Applicant</th><th>Position</th><th>Final Result</th><th>Applied</th><th>Action</th></tr></thead>
+              <tbody id="hiredApplicantsBody"><tr><td colspan="5" style="text-align:center;">Loading hired applicants...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-bar">
+        <select class="filter-select" id="empFilterDept">
+          <option value="">All Departments</option>
+          <option value="operations">Operations</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="management">Management</option>
+          <option value="admin">Admin & Finance</option>
+          <option value="maintenance">Maintenance</option>
+        </select>
+        <select class="filter-select" id="empFilterStatus">
+          <option value="">All Status</option>
+          <option value="active">Active</option>
+          <option value="inactive">Not Active / Resigned</option>
+        </select>
+        <select class="filter-select" id="empFilterPosition">
+          <option value="">All Positions</option>
+          <option value="barista">Barista</option>
+          <option value="cashier">Cashier</option>
+        </select>
+        <div class="filter-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search employees..." id="empSearch">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-users"></i> All Employees</h3>
+          <span style="color:rgba(255,255,255,0.3);font-size:13px;" id="empCount">Loading...</span>
+        </div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Position</th>
+                  <th>Department</th>
+                  <th>Status</th>
+                  <th>Joined Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="employeesTableBody">
+                <tr><td colspan="6" style="text-align:center;">Loading employees from the database...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">4</button>
+            <button class="pagination-btn">5</button>
+            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Employee Detail Modal -->
+      <div class="modal-overlay" id="empModal">
+        <div class="modal">
+          <div class="modal-header">
+            <h3 class="modal-title"><i class="fas fa-user-circle"></i> <span id="empModalName">Employee Name</span></h3>
+            <button class="modal-close" onclick="closeModal('empModal')"><i class="fas fa-times"></i></button>
+          </div>
+          <div class="modal-body">
+            <div class="detail-row">
+              <span class="detail-label">Full Name</span>
+              <span class="detail-value" id="empDetailName">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Position</span>
+              <span class="detail-value" id="empDetailPos">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Department</span>
+              <span class="detail-value" id="empDetailDept">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Email</span>
+              <span class="detail-value" id="empDetailEmail">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Contact</span>
+              <span class="detail-value" id="empDetailContact">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Status</span>
+              <span class="detail-value" id="empDetailStatus">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Joined Date</span>
+              <span class="detail-value" id="empDetailJoined">—</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-sm btn-outline" onclick="closeModal('empModal')">Close</button>
+            <button class="btn btn-sm btn-gold" onclick="openEmployeeEditFromView()"><i class="fas fa-edit"></i> Edit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-overlay" id="empEditModal">
+        <div class="modal">
+          <div class="modal-header">
+            <h3 class="modal-title"><i class="fas fa-user-edit"></i> Edit Employee</h3>
+            <button class="modal-close" onclick="closeModal('empEditModal')"><i class="fas fa-times"></i></button>
+          </div>
+          <form id="employeeEditForm">
+            <div class="modal-body">
+              <input type="hidden" name="id" id="editEmployeeId">
+              <input name="full_name" id="editEmployeeName" required placeholder="Full name" style="width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:7px;">
+              <input name="email" id="editEmployeeEmail" type="email" required placeholder="Email address" style="width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:7px;">
+              <input name="contact_no" id="editEmployeeContact" type="tel" inputmode="numeric" maxlength="11" pattern="[0-9]{11}" required placeholder="11-digit contact number" style="width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:7px;">
+              <select name="position" id="editEmployeePosition" required style="width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:7px;">
+                <option value="barista">Barista</option>
+                <option value="cashier">Cashier</option>
+              </select>
+              <select name="status" id="editEmployeeStatus" required style="width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:7px;">
+                <option value="approved">Active</option>
+                <option value="inactive">Not Active / Resigned</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('empEditModal')">Cancel</button>
+              <button type="submit" class="btn btn-sm btn-gold"><i class="fas fa-save"></i> Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+
+    <!-- ================================================================ -->
+    <!-- PAYROLL PAGE                                                      -->
+    <!-- ================================================================ -->
+    <div class="page-content" id="page-payroll">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Payroll</h1>
+          <p class="page-subtitle">Manage salaries and payroll processing</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-green" onclick="alert('Process payroll for this period')">
+            <i class="fas fa-calculator"></i> Process Payroll
+          </button>
+        </div>
+      </div>
+
+      <!-- Payroll Summary -->
+      <div class="payroll-summary">
+        <div class="payroll-card">
+          <div class="payroll-icon payroll-icon-green"><i class="fas fa-money-bill-wave"></i></div>
+          <div class="payroll-info">
+            <span class="payroll-label">Total Payroll This Month</span>
+            <span class="payroll-amount">₱0</span>
+            <span class="payroll-period">July 2026</span>
+          </div>
+        </div>
+        <div class="payroll-card">
+          <div class="payroll-icon payroll-icon-gold"><i class="fas fa-users"></i></div>
+          <div class="payroll-info">
+            <span class="payroll-label">Employees on Payroll</span>
+            <span class="payroll-amount">0</span>
+            <span class="payroll-period">Active employees</span>
+          </div>
+        </div>
+        <div class="payroll-card">
+          <div class="payroll-icon payroll-icon-blue"><i class="fas fa-chart-line"></i></div>
+          <div class="payroll-info">
+            <span class="payroll-label">Average Salary</span>
+            <span class="payroll-amount">₱0</span>
+            <span class="payroll-period">Per employee</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payroll Period Selector -->
+      <div class="filters-bar">
+        <select class="filter-select" id="payrollPeriod">
+          <option value="july-2026">July 2026</option>
+          <option value="june-2026">June 2026</option>
+          <option value="may-2026">May 2026</option>
+        </select>
+        <select class="filter-select" id="payrollDept">
+          <option value="">All Departments</option>
+          <option value="operations">Operations</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="management">Management</option>
+          <option value="admin">Admin</option>
+        </select>
+        <select class="filter-select" id="payrollStatus">
+          <option value="">All Status</option>
+          <option value="paid">Paid</option>
+          <option value="pending">Pending</option>
+          <option value="processing">Processing</option>
+        </select>
+        <div class="filter-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search employee..." id="payrollSearch">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-wallet"></i> Salary Breakdown</h3>
+          <span style="color:rgba(255,255,255,0.3);font-size:13px;">Showing July 2026</span>
+        </div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Department</th>
+                  <th>Gross Salary</th>
+                  <th>Deductions</th>
+                  <th>Net Pay</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Maria Santos</span>
+                        <span class="emp-email">maria.santos@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Operations</td>
+                  <td>₱14,500</td>
+                  <td>₱1,450</td>
+                  <td><strong>₱13,050</strong></td>
+                  <td><span class="status-badge status-approved">Paid</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-view" onclick="alert('View payslip - Maria Santos')" title="View Payslip"><i class="fas fa-file-invoice"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Juan Dela Cruz</span>
+                        <span class="emp-email">juan.dc@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Operations</td>
+                  <td>₱12,000</td>
+                  <td>₱1,200</td>
+                  <td><strong>₱10,800</strong></td>
+                  <td><span class="status-badge status-approved">Paid</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-view" onclick="alert('View payslip - Juan Dela Cruz')" title="View Payslip"><i class="fas fa-file-invoice"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Carlos Lopez</span>
+                        <span class="emp-email">carlos.lopez@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Kitchen</td>
+                  <td>₱13,200</td>
+                  <td>₱1,320</td>
+                  <td><strong>₱11,880</strong></td>
+                  <td><span class="status-badge status-pending">Pending</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-view" onclick="alert('View payslip - Carlos Lopez')" title="View Payslip"><i class="fas fa-file-invoice"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Ana Reyes</span>
+                        <span class="emp-email">ana.reyes@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Management</td>
+                  <td>₱18,000</td>
+                  <td>₱1,800</td>
+                  <td><strong>₱16,200</strong></td>
+                  <td><span class="status-badge status-pending">Pending</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-view" onclick="alert('View payslip - Ana Reyes')" title="View Payslip"><i class="fas fa-file-invoice"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Sofia Garcia</span>
+                        <span class="emp-email">sofia.garcia@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Operations</td>
+                  <td>₱9,500</td>
+                  <td>₱950</td>
+                  <td><strong>₱8,550</strong></td>
+                  <td><span class="status-badge status-leave">Processing</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-view" onclick="alert('View payslip - Sofia Garcia')" title="View Payslip"><i class="fas fa-file-invoice"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">4</button>
+            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- LEAVE REQUESTS PAGE                                               -->
+    <!-- ================================================================ -->
+    <div class="page-content" id="page-leave">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Leave Requests</h1>
+          <p class="page-subtitle">Approve or decline employee leave applications</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-gold" onclick="alert('Manage leave policies')">
+            <i class="fas fa-cog"></i> Settings
+          </button>
+        </div>
+      </div>
+
+      <!-- Leave Stats -->
+      <div class="leave-stats-grid">
+        <div class="leave-stat-card leave-stat-green">
+          <span class="leave-stat-count">12</span>
+          <span class="leave-stat-label">Approved</span>
+        </div>
+        <div class="leave-stat-card leave-stat-yellow">
+          <span class="leave-stat-count">5</span>
+          <span class="leave-stat-label">Pending</span>
+        </div>
+        <div class="leave-stat-card leave-stat-blue">
+          <span class="leave-stat-count">14</span>
+          <span class="leave-stat-label">Available Leave Credits</span>
+        </div>
+        <div class="leave-stat-card leave-stat-red">
+          <span class="leave-stat-count">3</span>
+          <span class="leave-stat-label">Rejected</span>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" onclick="switchLeaveTab(this, 'all')"><i class="fas fa-list"></i> All</button>
+        <button class="tab" onclick="switchLeaveTab(this, 'pending')"><i class="fas fa-hourglass-half"></i> Pending</button>
+        <button class="tab" onclick="switchLeaveTab(this, 'approved')"><i class="fas fa-check-circle"></i> Approved</button>
+        <button class="tab" onclick="switchLeaveTab(this, 'rejected')"><i class="fas fa-times-circle"></i> Rejected</button>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-bar">
+        <select class="filter-select" id="leaveFilterType">
+          <option value="">All Types</option>
+          <option value="sick">Sick Leave</option>
+          <option value="vacation">Vacation Leave</option>
+          <option value="personal">Personal Leave</option>
+          <option value="emergency">Emergency Leave</option>
+          <option value="maternity">Maternity Leave</option>
+        </select>
+        <select class="filter-select" id="leaveFilterDept">
+          <option value="">All Departments</option>
+          <option value="operations">Operations</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="management">Management</option>
+          <option value="admin">Admin</option>
+        </select>
+        <div class="filter-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search employee..." id="leaveSearch">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-calendar-alt"></i> Leave Applications</h3>
+          <span style="color:rgba(255,255,255,0.3);font-size:13px;">Click approve/reject to process</span>
+        </div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table class="data-table" id="leaveTable">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Leave Type</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Days</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-leave-status="pending">
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Carlos Lopez</span>
+                        <span class="emp-email">carlos.lopez@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Vacation Leave</td>
+                  <td>Jul 20, 2026</td>
+                  <td>Jul 22, 2026</td>
+                  <td>3 days</td>
+                  <td><span class="status-badge status-pending">Pending</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-approve" onclick="approveLeave(this)" title="Approve"><i class="fas fa-check"></i></button>
+                      <button class="action-btn action-btn-reject" onclick="rejectLeave(this)" title="Reject"><i class="fas fa-times"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-leave-status="pending">
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Liza Moran</span>
+                        <span class="emp-email">liza.moran@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Sick Leave</td>
+                  <td>Jul 14, 2026</td>
+                  <td>Jul 14, 2026</td>
+                  <td>1 day</td>
+                  <td><span class="status-badge status-pending">Pending</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-approve" onclick="approveLeave(this)" title="Approve"><i class="fas fa-check"></i></button>
+                      <button class="action-btn action-btn-reject" onclick="rejectLeave(this)" title="Reject"><i class="fas fa-times"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-leave-status="approved">
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Ana Reyes</span>
+                        <span class="emp-email">ana.reyes@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Personal Leave</td>
+                  <td>Jul 10, 2026</td>
+                  <td>Jul 12, 2026</td>
+                  <td>3 days</td>
+                  <td><span class="status-badge status-approved">Approved</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-view" onclick="alert('View leave details')" title="View"><i class="fas fa-eye"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-leave-status="pending">
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Ramon Torres</span>
+                        <span class="emp-email">ramon.torres@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Emergency Leave</td>
+                  <td>Jul 16, 2026</td>
+                  <td>Jul 17, 2026</td>
+                  <td>2 days</td>
+                  <td><span class="status-badge status-pending">Pending</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-approve" onclick="approveLeave(this)" title="Approve"><i class="fas fa-check"></i></button>
+                      <button class="action-btn action-btn-reject" onclick="rejectLeave(this)" title="Reject"><i class="fas fa-times"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-leave-status="rejected">
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Sofia Garcia</span>
+                        <span class="emp-email">sofia.garcia@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Vacation Leave</td>
+                  <td>Jul 05, 2026</td>
+                  <td>Jul 08, 2026</td>
+                  <td>4 days</td>
+                  <td><span class="status-badge status-rejected">Rejected</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-view" onclick="alert('View leave details')" title="View"><i class="fas fa-eye"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-leave-status="approved">
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar"><i class="fas fa-user"></i></div>
+                      <div>
+                        <span class="emp-name">Maria Santos</span>
+                        <span class="emp-email">maria.santos@quadra.com</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Sick Leave</td>
+                  <td>Jul 01, 2026</td>
+                  <td>Jul 02, 2026</td>
+                  <td>2 days</td>
+                  <td><span class="status-badge status-approved">Approved</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn action-btn-view" onclick="alert('View leave details')" title="View"><i class="fas fa-eye"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<!-- Notification Dropdown -->
+<div class="notif-dropdown" id="notifDropdown">
+  <div class="notif-dropdown-header">
+    <h4>Notifications</h4>
+    <button class="notif-mark-read">Mark all as read</button>
+  </div>
+  <div class="notif-list">
+    <div class="notif-item notif-unread">
+      <div class="notif-icon notif-icon-blue"><i class="fas fa-file-alt"></i></div>
+      <div class="notif-content">
+        <p class="notif-text">New application from John Smith - Barista</p>
+        <span class="notif-time">5 min ago</span>
+      </div>
+    </div>
+    <div class="notif-item notif-unread">
+      <div class="notif-icon notif-icon-green"><i class="fas fa-check-circle"></i></div>
+      <div class="notif-content">
+        <p class="notif-text">Leave approved for Maria Santos</p>
+        <span class="notif-time">1 hour ago</span>
+      </div>
+    </div>
+    <div class="notif-item notif-unread">
+      <div class="notif-icon notif-icon-gold"><i class="fas fa-clock"></i></div>
+      <div class="notif-content">
+        <p class="notif-text">Payroll deadline approaching - July 25</p>
+        <span class="notif-time">3 hours ago</span>
+      </div>
+    </div>
+    <div class="notif-item notif-unread">
+      <div class="notif-icon notif-icon-red"><i class="fas fa-exclamation-triangle"></i></div>
+      <div class="notif-content">
+        <p class="notif-text">Schedule conflict: Kitchen shift understaffed</p>
+        <span class="notif-time">5 hours ago</span>
+      </div>
+    </div>
+    <div class="notif-item notif-unread">
+      <div class="notif-icon notif-icon-blue"><i class="fas fa-user-plus"></i></div>
+      <div class="notif-content">
+        <p class="notif-text">New applicant: Carlos Mendoza - Chef</p>
+        <span class="notif-time">1 day ago</span>
+      </div>
+    </div>
+  </div>
+  <div class="notif-dropdown-footer">
+    <a href="#">View all notifications</a>
+  </div>
+</div>
+
+<!-- Sign-Out Confirmation Modal -->
+<div class="signout-modal-overlay" id="adminCreateEmployeeModal">
+  <div class="signout-modal" style="max-width:560px;text-align:left;">
+    <h2 class="signout-modal-title"><i class="fas fa-user-plus"></i> Create Employee Account</h2>
+    <form id="adminCreateEmployeeForm">
+      <input type="hidden" name="applicant_id" id="adminApplicantId">
+      <input name="full_name" required placeholder="Full name" style="width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:7px;">
+      <input name="email" type="email" required placeholder="Email address" style="width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:7px;">
+      <input name="contact_no" type="tel" inputmode="numeric" maxlength="11" pattern="[0-9]{11}" required placeholder="11-digit contact number" style="width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:7px;">
+      <input name="username" required placeholder="Username" style="width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:7px;">
+      <select name="position" id="adminCreatePosition" required style="width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:7px;">
+        <option value="barista">Barista</option>
+        <option value="cashier">Cashier</option>
+      </select>
+      <p class="signout-modal-desc" style="margin:10px 0 0;">A 6-digit access PIN will be generated automatically and emailed to the employee.</p>
+      <div class="signout-modal-actions" style="margin-top:18px;">
+        <button type="button" class="signout-modal-btn signout-btn-cancel" onclick="closeAdminCreateEmployee()">Cancel</button>
+        <button type="submit" class="signout-modal-btn signout-btn-confirm">Create Account</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Admin Alert Modal -->
+<div class="signout-modal-overlay" id="adminAlertModal">
+  <div class="signout-modal" style="max-width:420px;">
+    <div class="signout-modal-icon" id="adminAlertIcon">
+      <i class="fas fa-check-circle" id="adminAlertIconTag"></i>
+    </div>
+    <h2 class="signout-modal-title" id="adminAlertTitle">Success</h2>
+    <p class="signout-modal-desc" id="adminAlertDesc"></p>
+    <div class="signout-modal-actions">
+      <button class="signout-modal-btn signout-btn-confirm" onclick="closeAdminAlert()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sign-Out Confirmation Modal -->
+<div class="signout-modal-overlay" id="signoutModal">
+  <div class="signout-modal">
+    <div class="signout-modal-icon">
+      <i class="fas fa-sign-out-alt"></i>
+    </div>
+    <h2 class="signout-modal-title">Sign Out</h2>
+    <p class="signout-modal-desc">Are you sure you want to sign out of your account? You will be redirected to the login page.</p>
+    <div class="signout-modal-actions">
+      <button class="signout-modal-btn signout-btn-cancel" onclick="hideSignoutModal()">Cancel</button>
+      <button class="signout-modal-btn signout-btn-confirm" onclick="confirmSignout()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- Applicant Details Modal (sent from HR) -->
+<div class="modal-overlay" id="applicantViewModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="fas fa-file-alt"></i> <span id="applicantViewName">Applicant Name</span></h3>
+      <button class="modal-close" onclick="closeApplicantView()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row">
+        <span class="detail-label">Email</span>
+        <span class="detail-value" id="applicantViewEmail"></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Position</span>
+        <span class="detail-value" id="applicantViewPosition"></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Date Applied</span>
+        <span class="detail-value" id="applicantViewDate"></span>
+      </div>
+      <div style="border-top: 1px solid rgba(214,174,98,0.1); margin-top: 8px; padding-top: 14px;">
+        <h4 style="color: #E9C27D; font-family: 'Cormorant Garamond', serif; font-size: 17px; margin-bottom: 6px;"><i class="fas fa-info-circle"></i> Application Details</h4>
+        <div id="applicantViewDetails"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-sm btn-outline" onclick="closeApplicantView()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// ============================================
+// SIGN-OUT CONFIRMATION MODAL
+// ============================================
+function showSignoutModal() {
+  document.getElementById('signoutModal').classList.add('show');
+}
+
+function hideSignoutModal() {
+  document.getElementById('signoutModal').classList.remove('show');
+}
+
+function confirmSignout() {
+  window.location.href = 'Login.html';
+}
+
+// Close modal on overlay click
+document.getElementById('signoutModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    hideSignoutModal();
+  }
+});
+document.getElementById('adminAlertModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeAdminAlert();
+  }
+});
+document.getElementById('adminCreateEmployeeModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeAdminCreateEmployee();
+  }
+});
+document.getElementById('empEditModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeModal('empEditModal');
+  }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    hideSignoutModal();
+    closeAdminAlert();
+    closeAdminCreateEmployee();
+    closeModal('empEditModal');
+  }
+});
+
+// ============================================
+// SET CURRENT DATE
+// ============================================
+function updateDate() {
+  const now = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+  document.getElementById('attendanceDate').valueAsDate = now;
+  document.getElementById('attLogDate').textContent = 'Date: ' + now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+updateDate();
+
+// ============================================
+// SIDEBAR NAVIGATION
+// ============================================
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    this.classList.add('active');
+    const page = this.dataset.page;
+    document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + page);
+    if (target) target.classList.add('active');
+    if (page === 'employees') {
+      loadEmployees();
+      loadHiredApplicantsForAccounts();
+    }
+    // Close sidebar on mobile
+    if (window.innerWidth <= 992) document.getElementById('sidebar').classList.remove('show');
+  });
+});
+
+function switchPage(page) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navItem = document.querySelector(`.nav-item[data-page="${page}"]`);
+  if (navItem) navItem.classList.add('active');
+  document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+  if (page === 'employees') {
+    loadEmployees();
+    loadHiredApplicantsForAccounts();
+  }
+}
+
+// ============================================
+// MOBILE MENU TOGGLE
+// ============================================
+document.getElementById('menuToggle').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.toggle('show');
+});
+
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (window.innerWidth <= 992) {
+    if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+      sidebar.classList.remove('show');
+    }
+  }
+});
+
+// ============================================
+// NOTIFICATION DROPDOWN
+// ============================================
+const notifToggle = document.getElementById('notifToggle');
+const notifDropdown = document.getElementById('notifDropdown');
+
+notifToggle.addEventListener('click', function(e) {
+  e.stopPropagation();
+  notifDropdown.classList.toggle('show');
+});
+
+document.addEventListener('click', function(e) {
+  if (!notifDropdown.contains(e.target) && !notifToggle.contains(e.target)) {
+    notifDropdown.classList.remove('show');
+  }
+});
+
+document.querySelector('.notif-mark-read')?.addEventListener('click', function() {
+  document.querySelectorAll('.notif-unread').forEach(n => n.classList.remove('notif-unread'));
+  document.querySelector('.notif-badge').textContent = '0';
+  this.textContent = 'All marked as read';
+});
+
+// ============================================
+// ANIMATED COUNTERS
+// ============================================
+function animateCounters() {
+  document.querySelectorAll('#page-dashboard .stat-value').forEach(el => {
+    const target = parseInt(el.textContent.replace(/[₱,]/g, ''));
+    if (isNaN(target)) return;
+    const step = Math.ceil(target / 30);
+    let current = 0;
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = current.toLocaleString();
+    }, 1000 / (target / step));
+  });
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { animateCounters(); observer.disconnect(); }
+  });
+});
+const dashPage = document.getElementById('page-dashboard');
+if (dashPage) observer.observe(dashPage);
+
+// ============================================
+// APPLICANT FUNCTIONS
+// ============================================
+let currentApplicantTab = 'all';
+
+function switchApplicantTab(btn, tab) {
+  document.querySelectorAll('#page-applicants .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentApplicantTab = tab;
+  filterApplicants();
+}
+
+function filterApplicants() {
+  const rows = document.querySelectorAll('#applicantsTable tbody tr');
+  rows.forEach(row => {
+    const status = row.dataset.status;
+    if (currentApplicantTab === 'all' || currentApplicantTab === status) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+
+function approveApplicant(btn) {
+  if (confirm('Approve this applicant?')) {
+    const row = btn.closest('tr');
+    const name = row.querySelector('.emp-name').textContent;
+    row.dataset.status = 'approved';
+    row.querySelector('.status-badge').className = 'status-badge status-approved';
+    row.querySelector('.status-badge').textContent = 'Approved';
+    btn.closest('.action-btns').innerHTML = '<button class="action-btn action-btn-view" onclick="viewApplicant(\'' + name + '\')" title="View"><i class="fas fa-eye"></i></button>';
+    alert('✅ ' + name + ' has been approved!');
+  }
+}
+
+function rejectApplicant(btn) {
+  if (confirm('Reject this applicant?')) {
+    const row = btn.closest('tr');
+    const name = row.querySelector('.emp-name').textContent;
+    row.dataset.status = 'rejected';
+    row.querySelector('.status-badge').className = 'status-badge status-rejected';
+    row.querySelector('.status-badge').textContent = 'Rejected';
+    btn.closest('.action-btns').innerHTML = '<button class="action-btn action-btn-view" onclick="viewApplicant(\'' + name + '\')" title="View"><i class="fas fa-eye"></i></button>';
+    alert('❌ ' + name + ' has been rejected.');
+  }
+}
+
+function viewApplicant(name) {
+  alert('📋 Viewing application of: ' + name + '\n\nYou can view full application details here.');
+}
+
+// ============================================
+// LOAD APPLICANTS SENT FROM HR (localStorage)
+// ============================================
+let adminSentApplicants = [];
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+const expMap = {
+  'none': 'No experience',
+  'less-1': 'Less than 1 yr',
+  '1-2': '1 - 2 yrs',
+  '3-5': '3 - 5 yrs',
+  '5-10': '5 - 10 yrs',
+  '10+': '10+ yrs'
+};
+
+function loadSentToAdmin() {
+  let sent = [];
+  try { sent = JSON.parse(localStorage.getItem('qc_to_admin')) || []; } catch (e) { sent = []; }
+  if (!sent.length) return;
+
+  adminSentApplicants = [];
+  const tbody = document.querySelector('#applicantsTable tbody');
+  if (!tbody) return;
+
+  const seen = new Set();
+  sent.forEach(app => {
+    const id = app.applicationId || app.fullName || app.email;
+    if (seen.has(id)) return;
+    seen.add(id);
+
+    const index = adminSentApplicants.length;
+    adminSentApplicants.push(app);
+
+    const name = app.fullName || app.name || 'Applicant';
+    const exp = expMap[app.yearsExp] || (app.yearsExp ? app.yearsExp : '—');
+    const tr = document.createElement('tr');
+    tr.dataset.status = 'pending';
+    tr.innerHTML =
+      '<td><div class="emp-cell"><div class="emp-avatar"><i class="fas fa-user"></i></div><div>' +
+        '<span class="emp-name">' + escapeHtml(name) + '</span>' +
+        '<span class="emp-email">' + escapeHtml(app.email || '') + '</span>' +
+      '</div></div></td>' +
+      '<td>' + escapeHtml(app.position || '—') + '</td>' +
+      '<td>' + escapeHtml(exp) + '</td>' +
+      '<td>' + escapeHtml(app.date || '—') + '</td>' +
+      '<td><span class="status-badge status-pending">Pending</span></td>' +
+      '<td><div class="action-btns">' +
+        '<button class="action-btn action-btn-view" onclick="viewSentApplicant(' + index + ')" title="View"><i class="fas fa-eye"></i></button>' +
+        '<button class="action-btn action-btn-approve" onclick="approveApplicant(this)" title="Approve"><i class="fas fa-check"></i></button>' +
+        '<button class="action-btn action-btn-reject" onclick="rejectApplicant(this)" title="Reject"><i class="fas fa-times"></i></button>' +
+      '</div></td>';
+    tbody.appendChild(tr);
+  });
+
+  filterApplicants();
+}
+
+// ============================================
+// VIEW SENT APPLICANT DETAILS (from HR)
+// ============================================
+function viewSentApplicant(index) {
+  const app = adminSentApplicants[index];
+  if (!app) { alert('Application details not found.'); return; }
+  document.getElementById('applicantViewName').textContent = app.fullName || app.name || 'Applicant';
+  document.getElementById('applicantViewEmail').textContent = app.email || '—';
+  document.getElementById('applicantViewPosition').textContent = app.position || '—';
+  document.getElementById('applicantViewDate').textContent = app.date || '—';
+  document.getElementById('applicantViewDetails').innerHTML = renderSentDetails(app.details);
+  document.getElementById('applicantViewModal').classList.add('show');
+}
+
+function closeApplicantView() {
+  document.getElementById('applicantViewModal').classList.remove('show');
+}
+
+function renderSentDetails(text) {
+  if (!text || !text.trim()) {
+    return '<p style="color: rgba(255,255,255,0.4); font-style: italic;">No additional details provided.</p>';
+  }
+  const skip = ['Email', 'Position Applying For'];
+  const lines = text.split('\n');
+  let html = '';
+  lines.forEach(line => {
+    const idx = line.indexOf(':');
+    if (idx > 0 && idx < 60) {
+      const label = line.substring(0, idx).trim();
+      const value = line.substring(idx + 1).trim();
+      if (skip.includes(label)) return;
+      html += '<div class="detail-row"><span class="detail-label">' + escapeHtml(label) + '</span><span class="detail-value">' + escapeHtml(value) + '</span></div>';
+    } else if (line.trim()) {
+      html += '<p style="color: rgba(255,255,255,0.7); font-size: 13px; margin: 6px 0;">' + escapeHtml(line) + '</p>';
+    }
+  });
+  return html;
+}
+
+// Close applicant detail modal on overlay click
+document.getElementById('applicantViewModal').addEventListener('click', function(e) {
+  if (e.target === this) closeApplicantView();
+});
+
+// Search applicants
+document.getElementById('appSearch')?.addEventListener('keyup', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('#applicantsTable tbody tr').forEach(row => {
+    const name = row.querySelector('.emp-name')?.textContent.toLowerCase() || '';
+    const pos = row.cells[1]?.textContent.toLowerCase() || '';
+    row.style.display = (name.includes(q) || pos.includes(q)) ? '' : 'none';
+  });
+});
+
+// ============================================
+// LEAVE FUNCTIONS
+// ============================================
+let currentLeaveTab = 'all';
+
+function switchLeaveTab(btn, tab) {
+  document.querySelectorAll('#page-leave .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentLeaveTab = tab;
+  filterLeaves();
+}
+
+function filterLeaves() {
+  const rows = document.querySelectorAll('#leaveTable tbody tr');
+  rows.forEach(row => {
+    const status = row.dataset.leaveStatus;
+    if (currentLeaveTab === 'all' || currentLeaveTab === status) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+
+function approveLeave(btn) {
+  if (confirm('Approve this leave request?')) {
+    const row = btn.closest('tr');
+    const name = row.querySelector('.emp-name').textContent;
+    row.dataset.leaveStatus = 'approved';
+    row.querySelector('.status-badge').className = 'status-badge status-approved';
+    row.querySelector('.status-badge').textContent = 'Approved';
+    btn.closest('.action-btns').innerHTML = '<button class="action-btn action-btn-view" onclick="alert(\'View leave details - ' + name + '\')" title="View"><i class="fas fa-eye"></i></button>';
+    alert('✅ Leave approved for ' + name);
+  }
+}
+
+function rejectLeave(btn) {
+  if (confirm('Reject this leave request?')) {
+    const row = btn.closest('tr');
+    const name = row.querySelector('.emp-name').textContent;
+    row.dataset.leaveStatus = 'rejected';
+    row.querySelector('.status-badge').className = 'status-badge status-rejected';
+    row.querySelector('.status-badge').textContent = 'Rejected';
+    btn.closest('.action-btns').innerHTML = '<button class="action-btn action-btn-view" onclick="alert(\'View leave details - ' + name + '\')" title="View"><i class="fas fa-eye"></i></button>';
+    alert('❌ Leave rejected for ' + name);
+  }
+}
+
+// ============================================
+// EMPLOYEE FUNCTIONS
+// ============================================
+let adminEmployees = [];
+let selectedEmployeeId = null;
+
+function findEmployee(id) {
+  return adminEmployees.find(employee => String(employee.id) === String(id));
+}
+
+function formatDate(value) {
+  if (!value) return '-';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '-';
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function normalizePositionValue(position) {
+  const value = String(position || '').toLowerCase();
+  if (value.includes('barista')) return 'barista';
+  if (value.includes('cashier')) return 'cashier';
+  return '';
+}
+
+function positionDisplayName(value) {
+  if (value === 'barista') return 'Barista';
+  if (value === 'cashier') return 'Cashier';
+  return value || '';
+}
+
+async function loadAdminPositionAvailability() {
+  const select = document.getElementById('adminCreatePosition');
+  if (!select) return null;
+
+  try {
+    const response = await fetch('../php/positions.php');
+    const result = await response.json();
+    if (!result.success) throw new Error(result.message || 'Unable to load positions.');
+
+    Array.from(select.options).forEach(option => {
+      if (!option.value) return;
+      const info = result.positions[option.value];
+      if (!info) return;
+      option.disabled = !info.available;
+      option.textContent = info.available
+        ? info.label + ' - ' + info.remaining + ' slot' + (info.remaining === 1 ? '' : 's') + ' left'
+        : info.label + ' - Full';
+    });
+
+    if (!select.value || select.selectedOptions[0]?.disabled) {
+      const firstAvailable = Array.from(select.options).find(option => option.value && !option.disabled);
+      select.value = firstAvailable ? firstAvailable.value : '';
+    }
+
+    return result.positions;
+  } catch (error) {
+    showAdminAlert('Position Availability Unavailable', 'Unable to check Barista/Cashier slots right now. Please refresh and try again.', false);
+    return null;
+  }
+}
+
+function viewEmployee(id) {
+  const employee = findEmployee(id);
+  if (!employee) return showAdminAlert('Employee Not Found', 'Unable to find this employee record in the database.', false);
+  selectedEmployeeId = employee.id;
+  document.getElementById('empModalName').textContent = employee.full_name;
+  document.getElementById('empDetailName').textContent = employee.full_name;
+  document.getElementById('empDetailPos').textContent = employee.position;
+  document.getElementById('empDetailDept').textContent = inferEmployeeDepartment(employee.position);
+  document.getElementById('empDetailEmail').textContent = employee.email;
+  document.getElementById('empDetailContact').textContent = employee.contact_no || '-';
+  document.getElementById('empDetailStatus').textContent = employeeStatusLabel(employee.status);
+  document.getElementById('empDetailJoined').textContent = formatDate(employee.created_at);
+  document.getElementById('empModal').classList.add('show');
+}
+
+function openEmployeeEdit(id) {
+  const employee = findEmployee(id);
+  if (!employee) return showAdminAlert('Employee Not Found', 'Unable to find this employee record in the database.', false);
+  selectedEmployeeId = employee.id;
+  document.getElementById('editEmployeeId').value = employee.id;
+  document.getElementById('editEmployeeName').value = employee.full_name || '';
+  document.getElementById('editEmployeeEmail').value = employee.email || '';
+  document.getElementById('editEmployeeContact').value = employee.contact_no || '';
+  document.getElementById('editEmployeePosition').value = normalizePositionValue(employee.position);
+  document.getElementById('editEmployeeStatus').value = employee.status === 'inactive' ? 'inactive' : 'approved';
+  document.getElementById('empEditModal').classList.add('show');
+}
+
+function openEmployeeEditFromView() {
+  closeModal('empModal');
+  openEmployeeEdit(selectedEmployeeId);
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+function escapeAccountHtml(value) {
+  const div = document.createElement('div');
+  div.textContent = value || '';
+  return div.innerHTML;
+}
+
+function inferEmployeeDepartment(position) {
+  const value = (position || '').toLowerCase();
+  if (value.includes('cook') || value.includes('chef') || value.includes('kitchen')) return 'Kitchen';
+  if (value.includes('manager') || value.includes('supervisor')) return 'Management';
+  if (value.includes('finance') || value.includes('admin')) return 'Admin & Finance';
+  if (value.includes('maintenance')) return 'Maintenance';
+  return 'Operations';
+}
+
+function employeeStatusLabel(status) {
+  if (status === 'approved') return 'Active';
+  if (status === 'inactive') return 'Not Active / Resigned';
+  return status.charAt(0).toUpperCase() + status.slice(1);
+}
+
+function employeeStatusClass(status) {
+  if (status === 'approved') return 'status-active';
+  if (status === 'inactive') return 'status-rejected';
+  if (status === 'rejected') return 'status-rejected';
+  return 'status-pending';
+}
+
+async function loadEmployees() {
+  const tbody = document.getElementById('employeesTableBody');
+  const count = document.getElementById('empCount');
+  if (!tbody || !count) return;
+  try {
+    const response = await fetch('../php/accounts.php?action=list');
+    const data = await response.json();
+    if (!data.success) throw new Error(data.message);
+    const employees = data.accounts.filter(account => {
+      const position = account.position || '';
+      return ['approved', 'inactive'].includes(account.status) &&
+        position !== 'Administrator' &&
+        !position.toLowerCase().includes('hr') &&
+        position.toLowerCase() !== 'human resources';
+    });
+    adminEmployees = employees;
+    count.textContent = employees.length + (employees.length === 1 ? ' total' : ' total');
+    if (!employees.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No employee records in the database yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = employees.map(employee => {
+      const joined = formatDate(employee.created_at);
+      const department = inferEmployeeDepartment(employee.position);
+      return '<tr>' +
+        '<td><div class="emp-cell"><div class="emp-avatar"><i class="fas fa-user"></i></div><div><span class="emp-name">' + escapeAccountHtml(employee.full_name) + '</span><span class="emp-email">' + escapeAccountHtml(employee.email) + '</span></div></div></td>' +
+        '<td>' + escapeAccountHtml(employee.position) + '</td>' +
+        '<td>' + escapeAccountHtml(department) + '</td>' +
+        '<td><span class="status-badge ' + employeeStatusClass(employee.status) + '">' + employeeStatusLabel(employee.status) + '</span></td>' +
+        '<td>' + escapeAccountHtml(joined) + '</td>' +
+        '<td><div class="action-btns"><button class="action-btn action-btn-view" onclick="viewEmployee(' + employee.id + ')" title="View"><i class="fas fa-eye"></i></button><button class="action-btn action-btn-edit" onclick="openEmployeeEdit(' + employee.id + ')" title="Edit"><i class="fas fa-edit"></i></button></div></td>' +
+      '</tr>';
+    }).join('');
+  } catch (error) {
+    count.textContent = 'Unavailable';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Unable to load employees from the database.</td></tr>';
+  }
+}
+
+function showAdminAlert(title, message, success = true) {
+  const icon = document.getElementById('adminAlertIcon');
+  const iconTag = document.getElementById('adminAlertIconTag');
+  icon.style.background = success ? 'rgba(52,168,83,0.15)' : 'rgba(234,67,53,0.15)';
+  icon.style.borderColor = success ? 'rgba(52,168,83,0.25)' : 'rgba(234,67,53,0.25)';
+  iconTag.className = success ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+  iconTag.style.color = success ? '#34A853' : '#EA4335';
+  document.getElementById('adminAlertTitle').textContent = title;
+  document.getElementById('adminAlertDesc').textContent = message;
+  document.getElementById('adminAlertModal').classList.add('show');
+}
+
+function closeAdminAlert() {
+  document.getElementById('adminAlertModal').classList.remove('show');
+}
+
+function enforceElevenDigitPhone(input) {
+  if (!input) return;
+  input.addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 11);
+  });
+}
+
+enforceElevenDigitPhone(document.querySelector('#adminCreateEmployeeForm input[name="contact_no"]'));
+enforceElevenDigitPhone(document.getElementById('editEmployeeContact'));
+
+document.getElementById('employeeEditForm')?.addEventListener('submit', async function(event) {
+  event.preventDefault();
+  const contact = document.getElementById('editEmployeeContact').value.trim();
+  const position = document.getElementById('editEmployeePosition').value;
+  if (!/^\d{11}$/.test(contact)) {
+    showAdminAlert('Invalid Contact Number', 'Contact number must be exactly 11 digits.', false);
+    return;
+  }
+  if (!position) {
+    showAdminAlert('Position Required', 'Please select Barista or Cashier for this employee.', false);
+    return;
+  }
+  try {
+    const body = new FormData(this);
+    body.append('action', 'update');
+    const response = await fetch('../php/accounts.php', { method: 'POST', body });
+    const result = await response.json();
+    if (!result.success) return showAdminAlert('Update Not Saved', result.message, false);
+    closeModal('empEditModal');
+    await loadEmployees();
+    showAdminAlert('Employee Updated', result.message, true);
+  } catch (error) {
+    showAdminAlert('Update Not Saved', 'Unable to update the employee record.', false);
+  }
+});
+
+// ============================================
+// SEARCH
+// ============================================
+document.getElementById('globalSearch')?.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter' && this.value.trim()) {
+    alert('🔍 Searching for: ' + this.value.trim());
+  }
+});
+
+loadEmployees();
+loadHiredApplicantsForAccounts();
+
+setInterval(() => {
+  if (document.getElementById('page-employees')?.classList.contains('active')) {
+    loadEmployees();
+    loadHiredApplicantsForAccounts();
+  }
+}, 10000);
+
+// ============================================
+// GENERATE REPORT
+// ============================================
+function generateReport() {
+  alert('📊 Generating comprehensive report...\n\nReport will be available for download shortly.');
+}
+
+// ============================================
+// ATTENDANCE SEARCH
+// ============================================
+document.getElementById('attSearch')?.addEventListener('keyup', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('#attendanceTable tbody tr').forEach(row => {
+    const name = row.querySelector('.emp-name')?.textContent.toLowerCase() || '';
+    row.style.display = name.includes(q) ? '' : 'none';
+  });
+});
+
+// ============================================
+// EMPLOYEE SEARCH
+// ============================================
+document.getElementById('empSearch')?.addEventListener('keyup', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('#page-employees .data-table tbody tr').forEach(row => {
+    const name = row.querySelector('.emp-name')?.textContent.toLowerCase() || '';
+    row.style.display = name.includes(q) ? '' : 'none';
+  });
+});
+
+// ============================================
+// PAYROLL SEARCH
+// ============================================
+document.getElementById('payrollSearch')?.addEventListener('keyup', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('#page-payroll .data-table tbody tr').forEach(row => {
+    const name = row.querySelector('.emp-name')?.textContent.toLowerCase() || '';
+    row.style.display = name.includes(q) ? '' : 'none';
+  });
+});
+
+// ============================================
+// LEAVE SEARCH & FILTER
+// ============================================
+document.getElementById('leaveSearch')?.addEventListener('keyup', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('#leaveTable tbody tr').forEach(row => {
+    const name = row.querySelector('.emp-name')?.textContent.toLowerCase() || '';
+    row.style.display = name.includes(q) ? '' : 'none';
+  });
+});
+
+// Load applicants sent from HR
+loadSentToAdmin();
+
+// Applicant Details Modal (sent from HR) - direct child of body
+// ============================================
+// Database-backed applicants forwarded by HR.
+let adminHiredApplicants = [];
+
+async function openAdminCreateEmployee(applicantIndex = null) {
+  const form = document.getElementById('adminCreateEmployeeForm');
+  const selectedPosition = document.getElementById('adminCreatePosition');
+  let requestedPosition = '';
+  if (applicantIndex !== null && adminHiredApplicants[applicantIndex]) {
+    const app = adminHiredApplicants[applicantIndex];
+    const fullName = [app.first_name, app.middle_name, app.last_name].filter(Boolean).join(' ');
+    form.applicant_id.value = app.id;
+    form.full_name.value = fullName;
+    form.email.value = app.email || '';
+    form.contact_no.value = app.contact_no || '';
+    form.username.value = (app.email || fullName).split('@')[0].toLowerCase().replace(/[^a-z0-9._-]/g, '');
+    requestedPosition = normalizePositionValue(app.position);
+  } else {
+    form.reset();
+    form.applicant_id.value = '';
+  }
+  const positions = await loadAdminPositionAvailability();
+  if (requestedPosition) {
+    selectedPosition.value = requestedPosition;
+  }
+  if (requestedPosition && selectedPosition.selectedOptions[0]?.disabled) {
+    const label = positionDisplayName(requestedPosition);
+    showAdminAlert('Position Not Available', label + ' is already full. Set an existing employee to Not Active/Resigned first, then create this account.', false);
+    selectedPosition.value = '';
+  }
+  if (positions && !selectedPosition.value) {
+    const firstAvailable = Array.from(selectedPosition.options).find(option => option.value && !option.disabled);
+    selectedPosition.value = firstAvailable ? firstAvailable.value : '';
+  }
+  document.getElementById('adminCreateEmployeeModal').classList.add('show');
+}
+function closeAdminCreateEmployee() { document.getElementById('adminCreateEmployeeModal').classList.remove('show'); }
+document.getElementById('adminCreateEmployeeForm')?.addEventListener('submit', async function (event) {
+  event.preventDefault();
+  const contact = this.contact_no.value.trim();
+  const selectedPosition = document.getElementById('adminCreatePosition');
+  if (!/^\d{11}$/.test(contact)) {
+    showAdminAlert('Invalid Contact Number', 'Contact number must be exactly 11 digits.', false);
+    return;
+  }
+  if (!selectedPosition.value || selectedPosition.selectedOptions[0]?.disabled) {
+    showAdminAlert('Position Not Available', 'Selected position is already full. Set an existing employee to Not Active/Resigned before creating another account.', false);
+    return;
+  }
+  try {
+    const response = await fetch('../php/create_employee.php', { method: 'POST', body: new FormData(this) });
+    const result = await response.json();
+    if (result.success) {
+      this.reset();
+      closeAdminCreateEmployee();
+      loadEmployees();
+      loadHiredApplicantsForAccounts();
+      showAdminAlert('Account Created', result.message, true);
+    } else {
+      showAdminAlert('Account Not Created', result.message, false);
+    }
+  } catch (error) { showAdminAlert('Account Not Created', 'Unable to create the employee account.', false); }
+});
+
+async function loadHiredApplicantsForAccounts() {
+  const tbody = document.getElementById('hiredApplicantsBody');
+  const count = document.getElementById('hiredApplicantCount');
+  if (!tbody || !count) return;
+  try {
+    const response = await fetch('../php/applicants.php?action=list&view=hr');
+    if (response.status === 401 || response.status === 403) {
+      showAdminAlert('Admin Session Required', 'Please sign in again using an Administrator PIN to manage hired applicants.', false);
+      setTimeout(() => { window.location.href = 'Login.html'; }, 1800);
+      return;
+    }
+    const result = await response.json();
+    if (!result.success) throw new Error(result.message);
+    adminHiredApplicants = result.applicants.filter(app => app.status === 'final_interview_passed');
+    count.textContent = adminHiredApplicants.length + ' ready';
+    if (!adminHiredApplicants.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hired applicants need an employee account yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = adminHiredApplicants.map((app, index) => {
+      const name = [app.first_name, app.middle_name, app.last_name].filter(Boolean).join(' ');
+      return '<tr>' +
+        '<td><div class="emp-cell"><div class="emp-avatar"><i class="fas fa-user-check"></i></div><div><span class="emp-name">' + escapeAccountHtml(name) + '</span><span class="emp-email">' + escapeAccountHtml(app.email) + '</span></div></div></td>' +
+        '<td>' + escapeAccountHtml(app.position) + '</td>' +
+        '<td><span class="status-badge status-approved">Final Interview Passed</span></td>' +
+        '<td>' + new Date(app.created_at).toLocaleDateString() + '</td>' +
+        '<td><button class="btn btn-sm btn-gold" onclick="openAdminCreateEmployee(' + index + ')"><i class="fas fa-user-plus"></i> Create Account</button></td>' +
+      '</tr>';
+    }).join('');
+  } catch (error) {
+    count.textContent = 'Unavailable';
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Unable to load hired applicants.</td></tr>';
+  }
+}
+
+async function loadSentToAdmin() {
+  const tbody = document.querySelector('#applicantsTable tbody');
+  if (!tbody) return;
+  try {
+    const response = await fetch('../php/applicants.php?action=list&view=admin');
+    if (response.status === 401 || response.status === 403) {
+      showAdminAlert('Admin Session Required', 'Please sign in again using an Administrator PIN to view applicants.', false);
+      setTimeout(() => { window.location.href = 'Login.html'; }, 1800);
+      return;
+    }
+    const result = await response.json();
+    if (!result.success) throw new Error(result.message);
+    adminSentApplicants = result.applicants;
+    tbody.innerHTML = '';
+    if (!adminSentApplicants.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No applicants are waiting for Admin approval.</td></tr>';
+      return;
+    }
+    adminSentApplicants.forEach((app, index) => {
+      const name = [app.first_name, app.middle_name, app.last_name].filter(Boolean).join(' ');
+      const status = app.status === 'admin_approved' ? 'Interview Scheduled' : app.status === 'interview_passed' ? 'Interview Passed' : app.status === 'interview_failed' ? 'Interview Not Passed' : app.status === 'admin_rejected' ? 'Rejected' : 'Pending Admin Approval';
+      const statusClass = (app.status === 'admin_approved' || app.status === 'interview_passed') ? 'status-approved' : (app.status === 'admin_rejected' || app.status === 'interview_failed') ? 'status-rejected' : 'status-pending';
+      const row = document.createElement('tr');
+      row.dataset.status = (app.status === 'admin_approved' || app.status === 'interview_passed') ? 'approved' : (app.status === 'admin_rejected' || app.status === 'interview_failed') ? 'rejected' : 'pending';
+      row.innerHTML = '<td><div class="emp-cell"><div class="emp-avatar"><i class="fas fa-user"></i></div><div><span class="emp-name">' + escapeHtml(name) + '</span><span class="emp-email">' + escapeHtml(app.email) + '</span></div></div></td>' +
+        '<td>' + escapeHtml(app.position) + '</td><td>' + escapeHtml(app.years_experience) + '</td><td>' + new Date(app.created_at).toLocaleDateString() + '</td>' +
+        '<td><span class="status-badge ' + statusClass + '">' + status + '</span></td><td><div class="action-btns">' +
+        '<button class="action-btn action-btn-view" onclick="viewDatabaseApplicant(' + index + ')" title="View"><i class="fas fa-eye"></i></button>' +
+        (app.status === 'hr_qualified' ? '<button class="action-btn action-btn-approve" onclick="approveDatabaseApplicant(' + index + ')" title="Schedule interview and send email"><i class="fas fa-calendar-check"></i></button><button class="action-btn action-btn-reject" onclick="rejectDatabaseApplicant(' + index + ')" title="Reject"><i class="fas fa-times"></i></button>' : '') +
+        (app.status === 'admin_approved' ? '<button class="action-btn action-btn-approve" onclick="saveInterviewResult(' + index + ', true)" title="Yes - applicant passed the interview"><i class="fas fa-thumbs-up"></i></button><button class="action-btn action-btn-reject" onclick="saveInterviewResult(' + index + ', false)" title="No - applicant did not pass the interview"><i class="fas fa-thumbs-down"></i></button>' : '') +
+        '</div></td>';
+      tbody.appendChild(row);
+    });
+  } catch (error) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Unable to load applicants from the database.</td></tr>';
+  }
+}
+
+function viewDatabaseApplicant(index) {
+  const app = adminSentApplicants[index];
+  if (!app) return;
+  const name = [app.first_name, app.middle_name, app.last_name].filter(Boolean).join(' ');
+  document.getElementById('applicantViewName').textContent = name;
+  document.getElementById('applicantViewEmail').textContent = app.email;
+  document.getElementById('applicantViewPosition').textContent = app.position;
+  document.getElementById('applicantViewDate').textContent = new Date(app.created_at).toLocaleDateString();
+  const resume = app.resume_path
+    ? '<a class="btn btn-sm btn-gold" href="../' + encodeURI(app.resume_path) + '" target="_blank"><i class="fas fa-file-pdf"></i> Open Resume</a>'
+    : '<span style="color:rgba(255,255,255,0.45);">No resume file was uploaded.</span>';
+  document.getElementById('applicantViewDetails').innerHTML = '<div class="detail-row"><span class="detail-label">Application ID</span><span class="detail-value">' + escapeHtml(app.application_code) + '</span></div><div class="detail-row"><span class="detail-label">Experience</span><span class="detail-value">' + escapeHtml(app.years_experience) + '</span></div><div class="detail-row"><span class="detail-label">Resume</span><span class="detail-value">' + resume + '</span></div>';
+  document.getElementById('applicantViewModal').classList.add('show');
+}
+
+async function approveDatabaseApplicant(index) {
+  const app = adminSentApplicants[index];
+  const date = prompt('Enter the initial interview date (YYYY-MM-DD):', new Date(Date.now() + 86400000).toISOString().slice(0, 10));
+  if (!date) { alert('Interview scheduling was not completed. Please provide a date.'); return; }
+  const time = prompt('Enter the initial interview time (24-hour format, HH:MM):', '10:00');
+  if (!time) { alert('Interview scheduling was not completed. Please provide a time.'); return; }
+  const location = prompt('Enter the interview venue or video-call link:', 'Quadra Cafe');
+  if (!location) { alert('Interview scheduling was not completed. Please provide a venue or meeting link.'); return; }
+  if (!confirm('Send the interview invitation to ' + app.email + '?\n\nDate: ' + date + '\nTime: ' + time + '\nVenue / link: ' + location)) return;
+  await saveAdminDecision(app.id, 'approve', date, time, location);
+}
+
+async function saveInterviewResult(index, passed) {
+  const app = adminSentApplicants[index];
+  const name = [app.first_name, app.middle_name, app.last_name].filter(Boolean).join(' ');
+  try {
+    const body = new URLSearchParams({ action: 'interview_result', id: app.id, result: passed ? 'passed' : 'failed' });
+    const response = await fetch('../php/applicants.php', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body });
+    const result = await response.json();
+    alert(result.success ? (passed ? name + ' was marked as PASSED.' : name + ' was marked as NOT PASSED.') : result.message);
+    if (result.success) loadSentToAdmin();
+  } catch (error) {
+    alert('The interview result could not be saved. Please check your connection and try again.');
+  }
+}
+
+async function rejectDatabaseApplicant(index) {
+  const app = adminSentApplicants[index];
+  if (confirm('Reject this applicant?')) await saveAdminDecision(app.id, 'reject', '', '', '');
+}
+
+async function saveAdminDecision(id, decision, date, time, location) {
+  try {
+    const body = new URLSearchParams({ action: 'admin_decision', id: id, decision: decision, interview_date: date, interview_time: time, interview_location: location });
+    const response = await fetch('../php/applicants.php', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body });
+    const result = await response.json();
+    alert(result.message);
+    if (result.success) loadSentToAdmin();
+  } catch (error) { alert('Unable to save the Admin decision.'); }
+}
+
+</script>
+
+</body>
+
+</html>
